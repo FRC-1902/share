@@ -1,0 +1,75 @@
+Github local repository connection tutorial:
+
+	//Download git 1.8.4
+	//https://code.google.com/p/msysgit/downloads/detail?name=Git-1.8.4-preview20130916.exe&can=2&q=
+
+git config --global user.name "John Doe"
+
+git config --global user.email "johndoe@example.com"
+
+git config --global core.editor emacs
+
+git config --global merge.tool vimdiff
+
+git remote add origin https://github.com/"group_username"/"repository_name".git
+	//don't forget the ".git"!!!!
+	//seriously remember the ".git" on the end, it's crucial,
+
+mkdir projects
+	
+cd projects
+
+mkdir "Group username"
+
+cd "Group username"
+	
+git init
+	//you have to initialize the file from the subset. This is very
+	//important. Otherwise github will not recognize your file exists
+	//which can stump you for days if you don't realize it. Literally
+	//...days
+
+ssh-keygen -t rsa -C "johndoe@example.com"
+	//it will prompt a statement at you, just press enter
+	//create passphrase (won't show what you type but it is recording each letter)
+	//need to remember this password
+
+clip < ~/.ssh/id_rsa.pub
+	//saves the id you just created to your clip board, you will need
+	//to 'control v' in a minute
+	//open git hub
+	//go to your profile and open the edit your profile tab
+	//from there go to the SSH Keys tab on the left under your profile
+	//click add SSH Key
+	//Control v under the Key portion and then add key
+	//	you have the option to save a title, my recommendation is you use 
+	//	your password as the name in order to easily remember it.
+
+ssh -T git@github.com
+
+yes
+	//At this point it should say something about permanently adding 
+	//'github.com192...' (RSA) to your list of known hosts
+"password" 
+	//this is for entering your previously created passphrase
+	//again important to note it will not show you what you are typing but
+	//do it anyway then hit enter
+
+	//At this time the code should say Hi "john doe" you've successfully...
+	//pay no attention to the "does not provide shell access" that's not
+	//important. You uploaded it correctly.
+
+git config --global branch.master.merge refs/heads/master
+	//it's supposed to be "git@github.com" don't worry about changing it
+	//for something else	
+
+git pull origin master 
+	//this should pull the appropriate files to your computer
+	
+	//You will find your files, saved in my computer, users, "your username", projects, FRC-2014
+	//Here also you will find all the files you pulled previously.
+
+
+	Congragulations you have successfully connected your remote repository to the Github online 
+	repository. Now you can make changes and push them up to the main repository and pull changes
+	made by others. 
