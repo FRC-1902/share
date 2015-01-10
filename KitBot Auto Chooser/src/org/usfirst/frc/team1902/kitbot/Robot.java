@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
 import org.usfirst.frc.team1902.kitbot.commands.ExampleCommand;
+import org.usfirst.frc.team1902.kitbot.subsystems.DriveTrain;
 import org.usfirst.frc.team1902.kitbot.subsystems.ExampleSubsystem;
 
 /**
@@ -18,6 +20,7 @@ import org.usfirst.frc.team1902.kitbot.subsystems.ExampleSubsystem;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static final DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
 
     Command autonomousCommand;
