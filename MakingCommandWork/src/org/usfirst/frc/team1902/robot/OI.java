@@ -4,7 +4,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team1902.robot.commands.ArcadeDrive;
+import org.usfirst.frc.team1902.robot.commands.IntakeSpitCommand;
+import org.usfirst.frc.team1902.robot.commands.IntakeStartCommand;
 import org.usfirst.frc.team1902.robot.commands.SolenoidFlipCommand;
+import org.usfirst.frc.team1902.robot.commands.TankDrive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,9 +23,16 @@ public class OI {
     // Button button = new JoystickButton(stick, buttonNumber);
 	
 	public Joystick driveStick = new Joystick(RobotMap.driveStickPort);
+	public Joystick auxStick = new Joystick(RobotMap.auxStickPort);
 	
 	Button solenoidFlipButton = new JoystickButton(driveStick, RobotMap.solenoidFlip);
 	Button solenoidStutterButton = new JoystickButton(driveStick, RobotMap.solenoidStutter);
+	
+	Button tankDriveButton = new JoystickButton(driveStick, 8);
+	Button arcadeDriveButton = new JoystickButton(driveStick, 9);
+
+	Button intakeStartButton = new JoystickButton(driveStick, 4);
+	Button intakeSpitButton = new JoystickButton(driveStick, 5);
     
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -46,6 +57,12 @@ public class OI {
 	public OI(){
 		solenoidFlipButton.whenPressed(new SolenoidFlipCommand());
 		solenoidStutterButton.whileHeld(new SolenoidFlipCommand());
+		
+		tankDriveButton.whenPressed(new TankDrive());
+		arcadeDriveButton.whenPressed(new ArcadeDrive());
+		
+		intakeStartButton.whileHeld(new IntakeStartCommand());
+		intakeSpitButton.whileHeld(new IntakeSpitCommand());
 	}
 }
 

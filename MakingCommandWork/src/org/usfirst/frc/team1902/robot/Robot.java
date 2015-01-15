@@ -1,16 +1,21 @@
 
 package org.usfirst.frc.team1902.robot;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1902.robot.commands.DriveForward;
 import org.usfirst.frc.team1902.robot.commands.SolenoidFlipCommand;
 import org.usfirst.frc.team1902.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1902.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1902.robot.subsystems.Intake;
 import org.usfirst.frc.team1902.robot.subsystems.Pneumatics;
 
 /**
@@ -25,9 +30,12 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Pneumatics pneumatics = new Pneumatics();
+	public static final Intake intake = new Intake();
 	public static OI oi;
 
     Command autonomousCommand, teleopCommand;
+    DriverStation ds;
+    BuiltInAccelerometer accel;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,6 +46,8 @@ public class Robot extends IterativeRobot {
         // instantiate the command used for the autonomous period
         autonomousCommand = new DriveForward();
         teleopCommand = new SolenoidFlipCommand();
+        ds = DriverStation.getInstance();
+        accel = new BuiltInAccelerometer();
     }
 	
 	public void disabledPeriodic() {
@@ -79,6 +89,9 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
         
         if(Utility.getUserButton() && !teleopCommand.isRunning()) teleopCommand.start();
+        
+        SmartDashboard.putNumber("Accel X", accel.getX());
+        SmartDashboard.putNumber("Accel Y", accel.getY());
     }
     
     /**
