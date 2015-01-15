@@ -15,22 +15,25 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+	
+	int i;
+	
     public void robotInit() {
-
+    	i=0;
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+    	i += 1;
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        
+        i += 2;
     }
     
     /**

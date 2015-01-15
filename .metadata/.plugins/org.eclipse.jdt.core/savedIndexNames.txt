@@ -1,19 +1,4 @@
-INDEX VERSION 1.127+D:\Documents\GitHub\share\.metadata\.plugins\org.eclipse.jdt.core
-2768444137.index
-2135802843.index
-2201025539.index
-3529741828.index
-2708173074.index
-1388748281.index
-1554626255.index
-635525669.index
-1309468983.index
-1907099240.index
-311859419.index
-3840503684.index
-3735317742.index
-321208828.index
+INDEX VERSION 1.127+C:\Users\Developer\git\share\.metadata\.plugins\org.eclipse.jdt.core
 2530126069.index
-2690206198.index
-1158140284.index
-722316305.index
+2708173074.index
+162697996.index
