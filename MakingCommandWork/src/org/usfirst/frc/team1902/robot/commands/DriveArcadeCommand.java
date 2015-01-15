@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArcadeDrive extends Command {
+public class DriveArcadeCommand extends Command {
 
-    public ArcadeDrive() {
+    public DriveArcadeCommand() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
     }

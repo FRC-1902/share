@@ -1,22 +1,25 @@
-
 package org.usfirst.frc.team1902.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team1902.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class IntakeRotateCommand extends Command {
+	
+	boolean direction;
 
-    public ExampleCommand() {
+    public IntakeRotateCommand(boolean isCW) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.exampleSubsystem);
+        requires(Robot.intake);
+        direction = isCW;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.rotate(direction);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -25,7 +28,7 @@ public class ExampleCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

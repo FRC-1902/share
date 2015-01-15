@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1902.robot.subsystems;
 
 import org.usfirst.frc.team1902.robot.RobotMap;
-import org.usfirst.frc.team1902.robot.commands.ArcadeDrive;
+import org.usfirst.frc.team1902.robot.commands.DriveArcadeCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -56,7 +56,7 @@ public class DriveTrain extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ArcadeDrive());
+        setDefaultCommand(new DriveArcadeCommand());
     }
 }
 

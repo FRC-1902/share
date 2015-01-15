@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1902.robot.commands;
 
+
+
 import org.usfirst.frc.team1902.robot.Robot;
 
 import edu.wpi.first.wpilibj.Utility;
@@ -8,16 +10,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SolenoidFlipCommand extends Command {
+public class AutoDriveForwardCommand extends Command {
 
-    public SolenoidFlipCommand() {
+    public AutoDriveForwardCommand() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.pneumatics);
+        requires(Robot.driveTrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.pneumatics.solenoidFlip();
+    	Robot.driveTrain.forward(1);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -26,11 +28,12 @@ public class SolenoidFlipCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !Utility.getUserButton();
+        return Utility.getUserButton();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same

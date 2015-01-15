@@ -12,10 +12,12 @@ public class RobotMap {
 	//PWM
     public static int leftMotorPin = 0;
     public static int rightMotorPin = 1;
-    public static int intakePin = 2;
+    public static int intakeLeftPin = 2;
+    public static int intakeRightPin = 3;
     
     //PCM
     public static int solenoidPin = 0;
+    public static int intakeSolenoidPin = 1;
     
     //DS
     public static int driveStickPort = 0;

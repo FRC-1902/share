@@ -4,11 +4,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team1902.robot.commands.ArcadeDrive;
+import org.usfirst.frc.team1902.robot.commands.DriveArcadeCommand;
+import org.usfirst.frc.team1902.robot.commands.IntakeRotateCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeSpitCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeStartCommand;
-import org.usfirst.frc.team1902.robot.commands.SolenoidFlipCommand;
-import org.usfirst.frc.team1902.robot.commands.TankDrive;
+import org.usfirst.frc.team1902.robot.commands.IntakeStopCommand;
+import org.usfirst.frc.team1902.robot.commands.DriveTankCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -25,14 +26,13 @@ public class OI {
 	public Joystick driveStick = new Joystick(RobotMap.driveStickPort);
 	public Joystick auxStick = new Joystick(RobotMap.auxStickPort);
 	
-	Button solenoidFlipButton = new JoystickButton(driveStick, RobotMap.solenoidFlip);
-	Button solenoidStutterButton = new JoystickButton(driveStick, RobotMap.solenoidStutter);
-	
 	Button tankDriveButton = new JoystickButton(driveStick, 8);
 	Button arcadeDriveButton = new JoystickButton(driveStick, 9);
 
-	Button intakeStartButton = new JoystickButton(driveStick, 4);
-	Button intakeSpitButton = new JoystickButton(driveStick, 5);
+	Button intakeStartButton = new JoystickButton(driveStick, 2);
+	Button intakeSpitButton = new JoystickButton(driveStick, 3);
+	Button intakeRotateCWButton = new JoystickButton(driveStick, 5);
+	Button intakeRotateCCWButton = new JoystickButton(driveStick, 4);
     
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -54,15 +54,19 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	public OI(){
-		solenoidFlipButton.whenPressed(new SolenoidFlipCommand());
-		solenoidStutterButton.whileHeld(new SolenoidFlipCommand());
+	public OI(){		
+		tankDriveButton.whenPressed(new DriveTankCommand());
+		arcadeDriveButton.whenPressed(new DriveArcadeCommand());
 		
-		tankDriveButton.whenPressed(new TankDrive());
-		arcadeDriveButton.whenPressed(new ArcadeDrive());
+		intakeStartButton.whenPressed(new IntakeStartCommand());
+		intakeSpitButton.whenPressed(new IntakeSpitCommand());
+		intakeRotateCWButton.whenPressed(new IntakeRotateCommand(true));
+		intakeRotateCCWButton.whenPressed(new IntakeRotateCommand(false));
 		
-		intakeStartButton.whileHeld(new IntakeStartCommand());
-		intakeSpitButton.whileHeld(new IntakeSpitCommand());
+		intakeStartButton.whenReleased(new IntakeStopCommand());
+		intakeSpitButton.whenReleased(new IntakeStopCommand());
+		intakeRotateCWButton.whenReleased(new IntakeStopCommand());
+		intakeRotateCCWButton.whenReleased(new IntakeStopCommand());
 	}
 }
 

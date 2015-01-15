@@ -4,15 +4,12 @@ package org.usfirst.frc.team1902.robot;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team1902.robot.commands.DriveForward;
-import org.usfirst.frc.team1902.robot.commands.SolenoidFlipCommand;
+import org.usfirst.frc.team1902.robot.commands.AutoDriveForwardCommand;
 import org.usfirst.frc.team1902.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1902.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1902.robot.subsystems.Intake;
@@ -33,7 +30,7 @@ public class Robot extends IterativeRobot {
 	public static final Intake intake = new Intake();
 	public static OI oi;
 
-    Command autonomousCommand, teleopCommand;
+    Command autonomousCommand;
     DriverStation ds;
     BuiltInAccelerometer accel;
 
@@ -44,8 +41,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         // instantiate the command used for the autonomous period
-        autonomousCommand = new DriveForward();
-        teleopCommand = new SolenoidFlipCommand();
+        autonomousCommand = new AutoDriveForwardCommand();
         ds = DriverStation.getInstance();
         accel = new BuiltInAccelerometer();
     }
@@ -87,8 +83,6 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        
-        if(Utility.getUserButton() && !teleopCommand.isRunning()) teleopCommand.start();
         
         SmartDashboard.putNumber("Accel X", accel.getX());
         SmartDashboard.putNumber("Accel Y", accel.getY());
