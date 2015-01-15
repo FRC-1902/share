@@ -16,16 +16,11 @@ public class RobotMap {
     public static int intakeRightPin = 3;
     
     //PCM
-    public static int solenoidPin = 0;
-    public static int intakeSolenoidPin = 1;
+    public static int intakeSolenoidPin = 0;
     
     //DS
     public static int driveStickPort = 0;
     public static int auxStickPort = 1;
-    
-    //Stick
-    public static int solenoidFlip = 1;
-    public static int solenoidStutter = 2;
     
     // If you are using multiple modules, make sure to define both the port
     // number and the module. For example you with a rangefinder:

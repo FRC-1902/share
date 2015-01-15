@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team1902.robot.commands.DriveArcadeCommand;
+import org.usfirst.frc.team1902.robot.commands.IntakeClampCommand;
+import org.usfirst.frc.team1902.robot.commands.IntakeReleaseCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeRotateCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeSpitCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeStartCommand;
@@ -33,6 +35,7 @@ public class OI {
 	Button intakeSpitButton = new JoystickButton(driveStick, 3);
 	Button intakeRotateCWButton = new JoystickButton(driveStick, 5);
 	Button intakeRotateCCWButton = new JoystickButton(driveStick, 4);
+	Button intakeReleaseButton = new JoystickButton(driveStick, 1);
     
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -62,11 +65,13 @@ public class OI {
 		intakeSpitButton.whenPressed(new IntakeSpitCommand());
 		intakeRotateCWButton.whenPressed(new IntakeRotateCommand(true));
 		intakeRotateCCWButton.whenPressed(new IntakeRotateCommand(false));
+		intakeReleaseButton.whenPressed(new IntakeReleaseCommand());
 		
 		intakeStartButton.whenReleased(new IntakeStopCommand());
 		intakeSpitButton.whenReleased(new IntakeStopCommand());
 		intakeRotateCWButton.whenReleased(new IntakeStopCommand());
 		intakeRotateCCWButton.whenReleased(new IntakeStopCommand());
+		intakeReleaseButton.whenReleased(new IntakeClampCommand());
 	}
 }
 
