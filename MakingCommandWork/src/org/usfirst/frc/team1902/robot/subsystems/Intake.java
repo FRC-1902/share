@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1902.robot.subsystems;
 
+import org.usfirst.frc.team1902.robot.Robot;
 import org.usfirst.frc.team1902.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,14 +19,19 @@ public class Intake extends Subsystem {
 	
     public void start()
     {
-    	intakeLeft.set(1);
-    	intakeRight.set(1);
+    	double power = Robot.oi.driveStick.getZ();
+    	power = (power+1)/2;
+    	intakeLeft.set(power);
+    	intakeRight.set(-power);
     }
     
     public void spit()
     {
-    	intakeLeft.set(-1);
-    	intakeRight.set(-1);
+    	double power = Robot.oi.driveStick.getZ();
+    	power = (power+1)/2;
+    	
+    	intakeLeft.set(-power);
+    	intakeRight.set(power);
     }
     
     public void stop()
@@ -35,15 +42,18 @@ public class Intake extends Subsystem {
     
     public void rotate(boolean isCW)
     {
+    	double power = Robot.oi.driveStick.getZ();
+    	power = (power+1)/2;
+    	
     	if(isCW)
     	{
-	    	intakeLeft.set(-0.5);
-	    	intakeRight.set(0.5);
+	    	intakeLeft.set(-power);
+	    	intakeRight.set(-power);
     	}
     	else
     	{
-    		intakeLeft.set(0.5);
-	    	intakeRight.set(-0.5);
+    		intakeLeft.set(power);
+	    	intakeRight.set(power);
     	}
     }
     
