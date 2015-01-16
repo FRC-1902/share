@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1902.robot.commands.AutoDriveForwardCommand;
+import org.usfirst.frc.team1902.robot.commands.IntakeClampCommand;
 import org.usfirst.frc.team1902.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1902.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1902.robot.subsystems.Intake;
@@ -68,6 +69,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        new IntakeClampCommand().start();
     }
 
     /**
