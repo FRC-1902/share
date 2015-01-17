@@ -14,6 +14,7 @@ public class RobotMap {
     public static int rightMotorPin = 1;
     public static int intakeLeftPin = 2;
     public static int intakeRightPin = 3;
+    public static int elevatorLiftPin = 4;
     
     //PCM
     public static int intakeSolenoidPin = 0;

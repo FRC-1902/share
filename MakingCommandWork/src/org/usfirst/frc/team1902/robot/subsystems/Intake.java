@@ -20,7 +20,7 @@ public class Intake extends Subsystem {
     public void start()
     {
     	double power = Robot.oi.driveStick.getZ();
-    	power = (power+1)/2;
+    	power = (power-1)/2;
     	intakeLeft.set(power);
     	intakeRight.set(-power);
     }
@@ -28,7 +28,7 @@ public class Intake extends Subsystem {
     public void spit()
     {
     	double power = Robot.oi.driveStick.getZ();
-    	power = (power+1)/2;
+    	power = (power-1)/2;
     	
     	intakeLeft.set(-power);
     	intakeRight.set(power);
@@ -43,7 +43,7 @@ public class Intake extends Subsystem {
     public void rotate(boolean isCW)
     {
     	double power = Robot.oi.driveStick.getZ();
-    	power = (power+1)/2;
+    	power = (power-1)/2;
     	
     	if(isCW)
     	{
