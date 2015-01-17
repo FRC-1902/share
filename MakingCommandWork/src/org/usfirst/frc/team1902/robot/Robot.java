@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1902.robot.commands.AutoDriveForwardCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeClampCommand;
 import org.usfirst.frc.team1902.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1902.robot.subsystems.Elevator;
 import org.usfirst.frc.team1902.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1902.robot.subsystems.Intake;
 import org.usfirst.frc.team1902.robot.subsystems.Pneumatics;
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static final Pneumatics pneumatics = new Pneumatics();
+	public static final Elevator elevator = new Elevator();
 	public static final Intake intake = new Intake();
 	public static OI oi;
 

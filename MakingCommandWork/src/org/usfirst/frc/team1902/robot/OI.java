@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team1902.robot.commands.DriveArcadeCommand;
+import org.usfirst.frc.team1902.robot.commands.ElevatorLiftCommand;
+import org.usfirst.frc.team1902.robot.commands.ElevatorLowerCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeClampCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeReleaseCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeRotateCommand;
@@ -36,6 +38,9 @@ public class OI {
 	Button intakeRotateCWButton = new JoystickButton(driveStick, 5);
 	Button intakeRotateCCWButton = new JoystickButton(driveStick, 4);
 	Button intakeReleaseButton = new JoystickButton(driveStick, 1);
+	
+	Button elevatorLiftButton = new JoystickButton(driveStick, 6);
+	Button elevatorLowerButton = new JoystickButton(driveStick, 7);
     
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
@@ -72,6 +77,9 @@ public class OI {
 		intakeRotateCWButton.whenReleased(new IntakeStopCommand());
 		intakeRotateCCWButton.whenReleased(new IntakeStopCommand());
 		intakeReleaseButton.whenReleased(new IntakeClampCommand());
+		
+		elevatorLiftButton.whileHeld(new ElevatorLiftCommand());
+		elevatorLowerButton.whileHeld(new ElevatorLowerCommand());
 	}
 }
 
