@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team1902.robot.commands.AutoDriveBackwardCommand;
 import org.usfirst.frc.team1902.robot.commands.AutoDriveForwardCommand;
 import org.usfirst.frc.team1902.robot.commands.IntakeClampCommand;
 import org.usfirst.frc.team1902.robot.subsystems.DriveTrain;
@@ -34,19 +36,25 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
     Command autonomousCommand;
-    DriverStation ds;
+    public static DriverStation ds;
     BuiltInAccelerometer accel;
-
+    
+    SendableChooser autoChooser;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+    
     public void robotInit() {
 		oi = new OI();
-        // instantiate the command used for the autonomous period
-        autonomousCommand = new AutoDriveForwardCommand();
         ds = DriverStation.getInstance();
         accel = new BuiltInAccelerometer();
+        
+        autoChooser = new SendableChooser();
+        autoChooser.addDefault("Forwards", new AutoDriveForwardCommand());
+        autoChooser.addObject("Super Special Backwards", new AutoDriveBackwardCommand());
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 	
 	public void disabledPeriodic() {
@@ -55,6 +63,7 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	autonomousCommand = (Command) autoChooser.getSelected();
         if (autonomousCommand != null) autonomousCommand.start();
     }
 

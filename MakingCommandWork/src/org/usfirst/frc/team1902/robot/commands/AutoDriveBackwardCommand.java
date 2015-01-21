@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1902.robot.commands;
 
-
-
 import org.usfirst.frc.team1902.robot.Robot;
 
 import edu.wpi.first.wpilibj.Utility;
@@ -10,16 +8,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutoDriveForwardCommand extends Command {
+public class AutoDriveBackwardCommand extends Command {
 
-    public AutoDriveForwardCommand() {
+    public AutoDriveBackwardCommand() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.forward(1);
+    	Robot.driveTrain.backwards(1);
     }
 
     // Called repeatedly when this Command is scheduled to run

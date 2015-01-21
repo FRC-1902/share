@@ -17,19 +17,19 @@ public class DriveTrain extends Subsystem {
 	
 	public void forward(float speed)
 	{
-		leftMotor.set(-speed);
+		leftMotor.set(speed);
 		rightMotor.set(speed);
 	}
 	
 	public void backwards(float speed)
 	{
 		leftMotor.set(speed);
-		rightMotor.set(-speed);
+		rightMotor.set(speed);
 	}
 	
 	public void turn(float left, float right)
 	{
-		leftMotor.set(-left);
+		leftMotor.set(left);
 		rightMotor.set(right);
 	}
 	
@@ -37,14 +37,14 @@ public class DriveTrain extends Subsystem {
 	{
 		double x = stick.getX();
 		double y = stick.getY();
-		leftMotor.set(x-y);
-		rightMotor.set(x+y);
+		leftMotor.set(y-x);
+		rightMotor.set(y+x);
 	}
 	
 	public void tank(Joystick leftStick, Joystick rightStick)
 	{
 		leftMotor.set(leftStick.getY());
-		rightMotor.set(-rightStick.getY());
+		rightMotor.set(rightStick.getY());
 	}
 	
 	

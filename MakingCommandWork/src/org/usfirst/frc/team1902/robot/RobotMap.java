@@ -10,8 +10,8 @@ public class RobotMap {
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
 	//PWM
-    public static int leftMotorPin = 0;
-    public static int rightMotorPin = 1;
+    public static int leftMotorPin = 1;
+    public static int rightMotorPin = 0;
     public static int intakeLeftPin = 2;
     public static int intakeRightPin = 3;
     public static int elevatorLiftPin = 4;

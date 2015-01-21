@@ -11,7 +11,7 @@ public class ElevatorStopCommand extends Command {
 
     public ElevatorStopCommand() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
