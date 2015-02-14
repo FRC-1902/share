@@ -1,22 +1,18 @@
-
 package org.usfirst.frc.traumaKit.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Talon;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
 public class Robot extends IterativeRobot {
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
+    
+	Talon leftDrive = new Talon(0);
+	Talon rightTalon = new Talon(1);
+	//REFACTOR to be descriptive
+	Talon manipulator1 = new Talon(2);
+	Talon manipulator2 = new Talon(3);
+	
     public void robotInit() {
-
+    	
     }
 
     /**
