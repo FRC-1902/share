@@ -4,54 +4,62 @@ import com.explodingbacon.bcnlib.vision.Camera;
 import com.explodingbacon.bcnlib.vision.Contour;
 import com.explodingbacon.bcnlib.vision.Image;
 import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
+
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
     Camera c;
+    boolean camera = false;
 
     public Main() {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         try {
-            /*
-            c = new Camera(0);
-            System.out.println("Taking picture in three seconds, say \"cheese\"!");
-            for (int i = 3; i > 0; i--) {
-                System.out.println(i + "");
-                Thread.sleep(1000);
+            Image i;
+            if (camera) {
+                c = new Camera(0);
+                System.out.println("Taking picture in three seconds, say \"cheese\"!");
+                for (int j = 3; j > 0; j--) {
+                    System.out.println(j + "");
+                    Thread.sleep(1000);
+                }
+                c.getImage(); //Clears out the old crusty image we don't want
+                i = c.getImage();
+            } else {
+                i = Image.fromFile("workingimage.png");
             }
-            c.getImage(); //Clears out the old crusty image we don't want
-            Image i = c.getImage();
-            */
 
-            Image i = Image.fromFile("image.png");
-
-            Image filtered = i.colorRange(new Color(109, 39, 27), new Color(255, 160, 66));
+            Image filtered = i.colorRange(new Color(230, 230, 230), new Color(255, 255, 255));
 
             List<Contour> cons = filtered.getContours();
+            List<Contour> approxcons = new ArrayList<>();
 
             int coCount = 1;
             for (Contour c : cons) {
-                System.out.println("Contour " + coCount + " | X = " + c.getX() + " | Y = " + c.getY());
+                //System.out.println("Contour " + coCount + " | X = " + c.getX() + " | Y = " + c.getY());
                 coCount++;
+                approxcons.add(c.approxEdges(0.01));
+                Rect r = Imgproc.boundingRect(c.getMatOfPoint());
+                r.br();
+
             }
 
-            i.drawContours(cons, new Color(0, 255, 0));
+            if (!camera) i.drawContours(approxcons, new Color(0, 255, 0));
 
-            /*
-            Mat epsilon = Imgproc.arcLength(c.getContours().get(0), true);
-
-            epsilon = 0.1*cv2.arcLength(cnt,True)
-            2 approx = cv2.approxPolyDP(cnt,epsilon,True)*/
-
-            //TODO: Figure out how to get a rectangle around our target and get the width/height of it
-
-            //i.saveAs("image.png");
-            filtered.saveAs("filtered.png");
-            //System.out.println("Picture taken!");
+            if (!camera) {
+                i.saveAs("image.png");
+                filtered.saveAs("filtered.png");
+                System.out.println("Complete!");
+            } else {
+                i.saveAs("workingimage.png");
+                System.out.println("Picture taken!");
+            }
             System.exit(0);
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
