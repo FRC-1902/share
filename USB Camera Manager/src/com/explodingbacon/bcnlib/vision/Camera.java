@@ -19,17 +19,15 @@ public class Camera {
     private int index;
     private final Object CAMERA_USE = new Object();
     private final Object IMAGE_USE = new Object();
-    private Image image;
-    private Consumer<Image> imageGetter = null;
+    private Image image = new Image();
+    private Consumer<Image> onEachFrame = null;
 
     private boolean autoUpdate;
     private boolean updatingEnabled = true;
     private Thread updateThread = null;
 
-    public Camera(int i, boolean b, Consumer<Image> con) {
+    public Camera(int i, boolean b) {
         index = i;
-        image = new Image();
-        imageGetter = con;
         try {
             cam = new VideoCapture(index);
             autoUpdate = b;
@@ -43,9 +41,7 @@ public class Camera {
                                 if (cam.isOpened()) { //Do this again because synchronized can cause delays
                                     synchronized (IMAGE_USE) {
                                         cam.read(image.getMat());
-                                        if (imageGetter != null) {
-                                            imageGetter.accept(image.copy());
-                                        }
+                                        if (onEachFrame != null) onEachFrame.accept(image.copy());
                                     }
                                 }
                             }
@@ -77,7 +73,6 @@ public class Camera {
      *
      * @param u The new status of the auto updating.
      */
-
     public void setUpdatingEnabled(boolean u) {
         updatingEnabled = u;
     }
@@ -98,6 +93,15 @@ public class Camera {
      */
     public boolean isAutoUpdating() {
         return autoUpdate;
+    }
+
+    /**
+     * Sets the code that runs every time a frame is processed. Set this to null if you want no code to run.
+     *
+     * @param c The code to be run.
+     */
+    public void onEachFrame(Consumer<Image> c) {
+        onEachFrame = c;
     }
 
     /**
@@ -137,7 +141,7 @@ public class Camera {
     }
 
     /**
-     * Sets the FPS of this Camera.
+     * Sets the FPS of this Camera. TODO: Figure out why this doesn't work. This should help: http://stackoverflow.com/questions/7039575/how-to-set-camera-fps-in-opencv-cv-cap-prop-fps-is-a-fake
      *
      * @param d The new FPS.
      * @return If the operation was successful.

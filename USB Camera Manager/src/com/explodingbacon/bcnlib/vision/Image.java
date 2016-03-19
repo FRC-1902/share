@@ -100,7 +100,7 @@ public class Image {
      *
      * @return A copy of this Image that is in HSV instead of BGR.
      */
-    public Image toHSV() { //TODO: Test this
+    public Image toHSV() {
         Image newI = copy();
         Imgproc.cvtColor(m, newI.getMat(), Imgproc.COLOR_BGR2HSV);
         return newI;

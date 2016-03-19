@@ -1,6 +1,8 @@
 package com.explodingbacon.bcnlib.vision;
 
 import org.opencv.core.Scalar;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 /**
  * BCNLib implementation of Color, since the roboRIO does not have the java.awt package.
