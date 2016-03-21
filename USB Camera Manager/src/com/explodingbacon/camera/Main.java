@@ -1,6 +1,5 @@
 package com.explodingbacon.camera;
 
-import com.explodingbacon.bcnlib.utils.CodeThread;
 import com.explodingbacon.bcnlib.vision.*;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -223,6 +222,7 @@ public class Main extends javax.swing.JFrame {
         int minV = Integer.parseInt(minB.getText());
         int maxH = Integer.parseInt(maxR.getText());
         int maxS = Integer.parseInt(maxG.getText());
+        /*
         if (doingHSV && maxH > 180) {
             maxR.setText("180");
             maxH = 180;
@@ -230,6 +230,7 @@ public class Main extends javax.swing.JFrame {
             maxR.setText("255");
             maxH = 255;
         }
+        */
         int maxV = Integer.parseInt(maxB.getText());
         if (doingHSV) {
             min = new HSV(minH, minS, minV);

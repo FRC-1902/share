@@ -29,7 +29,8 @@ public class CastleTargeter implements Targeter {
      */
     @Override
     public Image filter(Image i, Object... args) { //filter(image);
-        return i.toHSV().inRange(Main.min, Main.max);
+        if (Main.doingHSV) return i.toHSV().inRange(Main.min, Main.max);
+        else return i.inRange(Main.min, Main.max);
     }
 
     /**
