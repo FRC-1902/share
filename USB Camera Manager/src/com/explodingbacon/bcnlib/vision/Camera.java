@@ -110,6 +110,11 @@ public class Camera {
      * @return The current Image on this Camera.
      */
     public Image getImage() {
+        if (!autoUpdate) {
+            cam.release();
+            cam.open(index);
+            cam.read(image.getMat());
+        }
         synchronized (IMAGE_USE) {
             return image.copy();
         }
