@@ -84,12 +84,12 @@ public class Image {
     }
 
     /**
-     * Creates a copy of this Image, but only showing colors within a certain range. Anything outside this range becomes black, anything in the range becomes white.
+     * Creates a copy of this Image, but only showing objects within a certain range. Anything outside this range becomes black, anything in the range becomes white.
      *
-     * @param low  The lowest acceptable color.
-     * @param high The highest acceptable color.
+     * @param low  The lowest value.
+     * @param high The highest value.
      */
-    public Image colorRange(Color low, Color high) {
+    public Image inRange(BCNScalar low, BCNScalar high) {
         Mat newM = new Mat();
         Core.inRange(m, low.toScalar(), high.toScalar(), newM);
         return new Image(newM);

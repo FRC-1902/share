@@ -27,22 +27,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/camera/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49317408">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="232" column="52" selection-start-line="232" selection-start-column="52" selection-end-line="232" selection-end-column="52" />
               <folding>
-                <element signature="e#1145#1175#0" expanded="true" />
-                <element signature="e#1180#1269#0" expanded="true" />
+                <element signature="e#1344#1433#0" expanded="true" />
                 <element signature="method#initComponents#0;class#Main#0" expanded="false" />
-                <element signature="e#3010#3011#0" expanded="true" />
-                <element signature="e#3074#3075#0" expanded="true" />
-                <element signature="e#3303#3304#0" expanded="true" />
-                <element signature="e#3375#3376#0" expanded="true" />
-                <element signature="e#12039#12126#0" expanded="true" />
-                <element signature="e#12751#12752#0" expanded="true" />
-                <element signature="e#12810#12811#0" expanded="true" />
+                <element signature="e#16149#16236#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CastleTargeter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/CastleTargeter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.609215">
+              <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#492#493#0" expanded="true" />
+                <element signature="e#516#517#0" expanded="true" />
+                <element signature="e#767#768#0" expanded="true" />
+                <element signature="e#844#845#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -73,11 +82,11 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/explodingbacon/camera/Board.java" />
         <option value="$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Camera.java" />
-        <option value="$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Image.java" />
         <option value="$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Color.java" />
-        <option value="$PROJECT_DIR$/src/com/explodingbacon/camera/Main.java" />
         <option value="$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Targeter.java" />
+        <option value="$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Image.java" />
         <option value="$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/CastleTargeter.java" />
+        <option value="$PROJECT_DIR$/src/com/explodingbacon/camera/Main.java" />
       </list>
     </option>
   </component>
@@ -112,8 +121,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -268,7 +277,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -620,17 +629,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/explodingbacon/camera/Main.java</url>
-          <line>18</line>
+          <line>22</line>
           <properties />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/com/explodingbacon/camera/Main.java</url>
-          <line>34</line>
+          <line>38</line>
           <properties class="com.explodingbacon.camera.Main" method="initComponents" />
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -644,16 +653,21 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1145#1175#0" expanded="true" />
-            <element signature="e#1180#1269#0" expanded="true" />
+            <element signature="e#1344#1433#0" expanded="true" />
             <element signature="method#initComponents#0;class#Main#0" expanded="false" />
-            <element signature="e#3010#3011#0" expanded="true" />
-            <element signature="e#3074#3075#0" expanded="true" />
-            <element signature="e#3303#3304#0" expanded="true" />
-            <element signature="e#3375#3376#0" expanded="true" />
-            <element signature="e#12039#12126#0" expanded="true" />
-            <element signature="e#12751#12752#0" expanded="true" />
-            <element signature="e#12810#12811#0" expanded="true" />
+            <element signature="e#16149#16236#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/camera/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1344#1433#0" expanded="true" />
+            <element signature="method#initComponents#0;class#Main#0" expanded="false" />
+            <element signature="e#16149#16236#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -662,7 +676,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33213645">
           <caret line="191" column="37" selection-start-line="191" selection-start-column="32" selection-end-line="191" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -686,7 +699,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.087030716">
           <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -695,18 +707,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Image.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="103" column="28" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="28" />
-          <folding>
-            <element signature="e#428#429#0" expanded="true" />
-            <element signature="e#457#458#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -719,16 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/CastleTargeter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.7559726">
-          <caret line="97" column="109" selection-start-line="97" selection-start-column="109" selection-end-line="97" selection-end-column="109" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Targeter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8993174">
@@ -737,21 +728,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/Image.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39078498">
+          <caret line="95" column="5" selection-start-line="95" selection-start-column="5" selection-end-line="95" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/camera/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49317408">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="232" column="52" selection-start-line="232" selection-start-column="52" selection-end-line="232" selection-end-column="52" />
           <folding>
-            <element signature="e#1145#1175#0" expanded="true" />
-            <element signature="e#1180#1269#0" expanded="true" />
+            <element signature="e#1344#1433#0" expanded="true" />
             <element signature="method#initComponents#0;class#Main#0" expanded="false" />
-            <element signature="e#3010#3011#0" expanded="true" />
-            <element signature="e#3074#3075#0" expanded="true" />
-            <element signature="e#3303#3304#0" expanded="true" />
-            <element signature="e#3375#3376#0" expanded="true" />
-            <element signature="e#12039#12126#0" expanded="true" />
-            <element signature="e#12751#12752#0" expanded="true" />
-            <element signature="e#12810#12811#0" expanded="true" />
+            <element signature="e#16149#16236#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/explodingbacon/bcnlib/vision/CastleTargeter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.609215">
+          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#492#493#0" expanded="true" />
+            <element signature="e#516#517#0" expanded="true" />
+            <element signature="e#767#768#0" expanded="true" />
+            <element signature="e#844#845#0" expanded="true" />
           </folding>
         </state>
       </provider>

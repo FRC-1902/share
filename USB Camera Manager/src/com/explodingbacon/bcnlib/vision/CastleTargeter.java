@@ -2,6 +2,8 @@ package com.explodingbacon.bcnlib.vision;
 
 import com.explodingbacon.bcnlib.framework.Log;
 import com.explodingbacon.bcnlib.utils.Utils;
+import com.explodingbacon.camera.Main;
+
 import java.util.Collections;
 
 /**
@@ -26,8 +28,8 @@ public class CastleTargeter implements Targeter {
      * @return A filtered version of the Image.
      */
     @Override
-    public Image filter(Image i, Object... args) { //filter(image)
-        return i.colorRange(new Color(230, 230, 230), new Color(255, 255, 255));
+    public Image filter(Image i, Object... args) { //filter(image);
+        return i.toHSV().inRange(Main.min, Main.max);
     }
 
     /**

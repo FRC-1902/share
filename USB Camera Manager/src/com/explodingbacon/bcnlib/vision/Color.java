@@ -8,10 +8,10 @@ import org.opencv.imgproc.Imgproc;
  * BCNLib implementation of Color, since the roboRIO does not have the java.awt package.
  *
  * @author Ryan Shavell
- * @version 2016.3.8
+ * @version 2016.3.21
  */
 
-public class Color {
+public class Color extends BCNScalar {
 
     public static final Color BLACK = new Color(0, 0, 0);
     public static final Color WHITE = new Color(255, 255, 255);
@@ -33,6 +33,7 @@ public class Color {
      * @param b The Blue value.
      */
     public Color(int r, int g, int b) {
+        super(b, g, r); //OpenCV works in BGR, not RGB
         red = r;
         green = g;
         blue = b;
@@ -62,14 +63,5 @@ public class Color {
      */
     public int getBlue() {
         return blue;
-    }
-
-    /**
-    * Converts this Color to a Scalar (a class similar to Color that uses BGR instead of RGB)
-     *
-    * @return A Scalar.
-     */
-    public Scalar toScalar() {
-        return new Scalar(blue, green, red);
     }
 }
