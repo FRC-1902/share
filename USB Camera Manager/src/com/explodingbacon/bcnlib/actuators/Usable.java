@@ -40,7 +40,6 @@ public abstract class Usable {
         if (user == null && !userWasNull && onNoUser != null) {
             try {
                 onNoUser.run();
-                Log.d("Usable.onNoUser was called!");
             } catch (Exception e) {
                 Log.e("Usable.onNoUser exception!");
                 e.printStackTrace();

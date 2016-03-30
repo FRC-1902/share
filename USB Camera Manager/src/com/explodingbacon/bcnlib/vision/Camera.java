@@ -49,8 +49,6 @@ public class Camera {
                     }
                 });
                 updateThread.start();
-            } else {
-                cam.release();
             }
         } catch (Exception e) {
             Log.e("Camera init exception!");
@@ -114,6 +112,7 @@ public class Camera {
             cam.release();
             cam.open(index);
             cam.read(image.getMat());
+            cam.release();
         }
         synchronized (IMAGE_USE) {
             return image.copy();
@@ -124,7 +123,9 @@ public class Camera {
      * Opens this Camera.
      */
     public void open() {
-        cam.open(index);
+        synchronized (CAMERA_USE) {
+            cam.open(index);
+        }
     }
 
     /**
