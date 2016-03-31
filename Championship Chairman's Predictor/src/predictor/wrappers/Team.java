@@ -9,12 +9,14 @@ import java.util.List;
 public class Team {
 
     public final String name;
+    public final String fullName;
     public final int number;
     public final int rookieYear;
     private List<Award> awards = null;
 
     public Team(JSONObject o) {
         name = o.getString("nickname");
+        fullName = o.getString("name");
         number = o.getInt("team_number");
         if (!o.isNull("rookie_year")) {
             Object yearObj = o.get("rookie_year");

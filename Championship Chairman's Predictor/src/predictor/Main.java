@@ -27,7 +27,7 @@ public class Main {
     public Main() {
         List<Team> champsTeams = new ArrayList<>();
         if (useDivisions) {
-            System.out.println("Reading teams from divsions...");
+            System.out.println("Reading teams from divisions...");
             String[] divs;
             if (year <= 2014) divs = originalDivisions;
             else divs = allDivisions;
@@ -72,9 +72,7 @@ public class Main {
             }
         }
 
-        for (Team t : competitors) {
-            calculateCPR(t);
-        }
+        competitors.forEach(Main::calculateCPR);
 
         final Comparator<Team> comp = (t1, t2) -> {
             Double data = getData(t2, "cpr") - getData(t1, "cpr");
@@ -87,7 +85,6 @@ public class Main {
         System.out.println(competitors.size() + " competitors found. They are:");
         int pos = 1;
         for (Team t : competitors) {
-            double caWins = teamData.get(t.number + "chairmans");
             System.out.println(pos + ". " + t.number + " (" + t.name + ") - " + roundToPlace(getData(t, "cpr"), 2) + " CPR");
             pos++;
         }
@@ -95,19 +92,33 @@ public class Main {
 
     public static void calculateCPR(Team t) {
         double cpr;
-        double caWins = getData(t, "chairmans");
+        double caWins = 0;
         double eiWins = 0;
-        double historyBonus = 0;
-        for (Award a : t.getAllAwards()) { //TODO: don't do more than one history bonus per year
-            if (a.type == ENGINEERING_INSPIRATION) eiWins++;
-            if (a.year == year - 1 || a.year == year - 2 || a.year == year - 3) {
-                if (a.type == CHAIRMANS) historyBonus += .5;
-                if (a.type == ENGINEERING_INSPIRATION) historyBonus += .4;
+        for (Award a : t.getAllAwards()) {
+            if (a.year == year || a.year == year - 1 || a.year == year - 2 || a.year == year - 3) {
+                if (a.type == CHAIRMANS) caWins++;
+                if (a.type == ENGINEERING_INSPIRATION) eiWins++;
             }
         }
-        cpr = caWins + (eiWins * .75) + historyBonus;
+        int streak = 0;
+        int currYear = year - 1;
+        while (true) {
+            boolean streakOver = true;
+            for (Award a : t.getAllAwards()) {
+                if (a.year == currYear) {
+                    if (a.type == CHAIRMANS || a.type == ENGINEERING_INSPIRATION) {
+                        streak++;
+                        currYear--;
+                        streakOver = false;
+                        break;
+                    }
+                }
+            }
+            if (streakOver) break;
+        }
+        cpr = caWins + (eiWins * .75) + streak;
         setData(t, "cpr", cpr);
-        System.out.println(t.number + " CPR breakdown: " + caWins + " RCA wins, " + eiWins + " EI win(s), and a history bonus of " + historyBonus + ".");
+        //System.out.println(t.number + " CPR breakdown: " + caWins + " RCA wins, " + eiWins + " EI win(s), and a RCA/EI streak of " + streak + ".");
     }
 
     public static double getData(Team t, String key) {
