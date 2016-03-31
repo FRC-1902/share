@@ -15,9 +15,12 @@ public class Team {
     private List<Award> awards = null;
 
     public Team(JSONObject o) {
-        name = o.getString("nickname");
-        fullName = o.getString("name");
-        number = o.getInt("team_number");
+        if (!o.isNull("nickname")) name = o.getString("nickname");
+        else name = "null";
+        if (!o.isNull("name")) fullName = o.getString("name");
+        else fullName = "null";
+        if (!o.isNull("team_number")) number = o.getInt("team_number");
+        else number = -1;
         if (!o.isNull("rookie_year")) {
             Object yearObj = o.get("rookie_year");
             if (yearObj instanceof String) {

@@ -12,67 +12,113 @@ import java.util.*;
 
 public class Main {
 
+    //TODO: For checking events that have already played, filter out awards the team won after that event but within the same year
+    //TODO: Reprogram this. It's such a mess :(
+
     private static final String tbaAPI = "https://www.thebluealliance.com/api/v2/";
     private static final String tbaID = "?X-TBA-App-Id=frc1902:chairmans_predictions:v0.1";
     private static HashMap<String, Double> teamData = new HashMap<>();
     private static final String[] allDivisions = new String[]{"arc", "cars", "carv", "cur", "gal", "hop", "new", "tes"};
     public static final String[] originalDivisions = new String[]{"gal", "arc", "cur", "new"};
 
-    private static final int year = 2016;
-    private static final boolean useDivisions = false;
+    private static final String event = "all"; //use "champs" for champs and "all" for all teams in the world
+    private static final boolean useDivisions = false; //Only used if doing champs
+    private static int year = 2016; //Only used if doing champs
 
     public static final int CHAIRMANS = 0;
     public static final int ENGINEERING_INSPIRATION = 9;
 
     public Main() {
-        List<Team> champsTeams = new ArrayList<>();
-        if (useDivisions) {
-            System.out.println("Reading teams from divisions...");
-            String[] divs;
-            if (year <= 2014) divs = originalDivisions;
-            else divs = allDivisions;
-            for (String s : divs) {
-                Event e = new Event(year + s);
-                for (Team t : e.getTeams()) {
-                    champsTeams.add(t);
+        boolean champs = event.equals("champs");
+        boolean all = event.equals("all");
+        List<Team> teams = new ArrayList<>();
+        if (champs) {
+            if (useDivisions) {
+                System.out.println("Reading teams from divisions...");
+                String[] divs;
+                if (year <= 2014) divs = originalDivisions;
+                else divs = allDivisions;
+                for (String s : divs) {
+                    Event e = new Event(year + s);
+                    for (Team t : e.getTeams()) {
+                        teams.add(t);
+                    }
+                }
+            } else {
+                Event e = new Event(year + "cmp");
+                teams = e.getTeams();
+            }
+        } else if (all) {
+            System.out.println("Getting all teams in the world...please be patient.");
+            for (int i=0; i<13; i++) {
+                System.out.println("Page " + (i + 1));
+                JSONArray jsonTeams = getArray("teams/" + i);
+                for (JSONObject o : getObjects(jsonTeams)) {
+                    teams.add(new Team(o));
                 }
             }
         } else {
-            Event e = new Event(year + "cmp");
-            champsTeams = e.getTeams();
+            year = Integer.parseInt(event.substring(0, 4));
+            teams = new Event(event).getTeams();
         }
         List<Team> competitors = new ArrayList<>();
-        System.out.println(champsTeams.size() + " teams at " + year + " champs, finding that year's Chairman's winners...");
+        if (champs) {
+            System.out.println(teams.size() + " teams at " + year + " Champs, finding that year's Chairman's winners...");
+        } else if (all) {
+            System.out.println(teams.size() + " teams being anaylzed for Chairman's. This may take a while.");
+        } else {
+            System.out.println(teams.size() + " teams at " + event + ". Gathering some data on them...");
+        }
         double startMillis = System.currentTimeMillis();
-        for (Team t : champsTeams) {
+        int currTeam = 0;
+        for (Team t : teams) {
             double chairmanWins = 0;
             for (Award a : t.getAllAwards()) {
-                if (a.type == CHAIRMANS && !a.name.contains("District")) {
+                if (a.type == CHAIRMANS && !a.name.contains("District") && !a.event.equalsIgnoreCase(event)) {
                     int aYear = Integer.parseInt(a.event.substring(0, 4));
-                    //System.out.println(aYear);
                     if (aYear <= year) {
                         chairmanWins++;
-                        if (a.event.contains(year + "")) {
-                            if (!competitors.contains(t)) {
-                                competitors.add(t);
-                                System.out.println("" + t.number);
+                        if (champs) {
+                            if (a.event.contains(year + "")) {
+                                if (!competitors.contains(t)) {
+                                    competitors.add(t);
+                                    System.out.println("" + t.number);
+                                }
                             }
                         }
                     }
                 }
             }
             teamData.put(t.number + "chairmans", chairmanWins);
+            if (all) {
+                currTeam++;
+                System.out.println("" + t.number + " " + ((currTeam / teams.size()) * 100) + "%");
+            }
         }
-        System.out.println("Time taken to find winners: " + ((System.currentTimeMillis() - startMillis) / 1000) + " seconds");
-        System.out.println(competitors.size() + " " + year + " Chairman's winners found. Finding competitors...");
+        if (champs) {
+            System.out.println("Time taken to find winners: " + ((System.currentTimeMillis() - startMillis) / 1000) + " seconds");
+            System.out.println(competitors.size() + " " + year + " Chairman's winners found. Finding competitors...");
+        } else {
+            competitors = new ArrayList<>(teams);
+            System.out.println("Finding Chairman's competitors...");
+        }
         for (Team t : new ArrayList<>(competitors)) {
             double chairmanWins = teamData.get(t.number + "chairmans");
-            if (chairmanWins < 4) {
-                competitors.remove(t);
+            if (champs) {
+                if (chairmanWins < 4) {
+                    competitors.remove(t);
+                }
             }
         }
 
         competitors.forEach(Main::calculateCPR);
+
+        if (!champs) {
+            for (Team t : new ArrayList<>(competitors)) {
+                double cpr = getData(t, "cpr");
+                if (cpr == 0) competitors.remove(t);
+            }
+        }
 
         final Comparator<Team> comp = (t1, t2) -> {
             Double data = getData(t2, "cpr") - getData(t1, "cpr");
@@ -82,7 +128,11 @@ public class Main {
 
         Collections.sort(competitors, comp);
 
-        System.out.println(competitors.size() + " competitors found. They are:");
+        if (champs) {
+            System.out.println(competitors.size() + " Chairman's competitors found. They are:");
+        } else {
+            System.out.println(competitors.size() + " Chairman's competitors found at " + event + ". They are:");
+        }
         int pos = 1;
         for (Team t : competitors) {
             System.out.println(pos + ". " + t.number + " (" + t.name + ") - " + roundToPlace(getData(t, "cpr"), 2) + " CPR");
@@ -94,10 +144,14 @@ public class Main {
         double cpr;
         double caWins = 0;
         double eiWins = 0;
+        boolean chairmansThisYear = false;
         for (Award a : t.getAllAwards()) {
-            if (a.year == year || a.year == year - 1 || a.year == year - 2 || a.year == year - 3) {
-                if (a.type == CHAIRMANS) caWins++;
-                if (a.type == ENGINEERING_INSPIRATION) eiWins++;
+            if (!a.event.equalsIgnoreCase(event)) { //If this event has already been played, we do not want any awards this team won here to affect the calculations
+                if (a.year == year || a.year == year - 1 || a.year == year - 2 || a.year == year - 3) {
+                    if (a.type == CHAIRMANS) caWins++;
+                    if (a.type == ENGINEERING_INSPIRATION) eiWins++;
+                }
+                if (a.year == year && a.type == CHAIRMANS) chairmansThisYear = true;
             }
         }
         int streak = 0;
@@ -105,17 +159,20 @@ public class Main {
         while (true) {
             boolean streakOver = true;
             for (Award a : t.getAllAwards()) {
-                if (a.year == currYear) {
+                if (a.year == currYear && !a.event.equalsIgnoreCase(event)) {
                     if (a.type == CHAIRMANS || a.type == ENGINEERING_INSPIRATION) {
                         streak++;
                         currYear--;
                         streakOver = false;
+                        //System.out.println(t.number + "'s streak continued by " + a.event);
                         break;
                     }
                 }
             }
             if (streakOver) break;
         }
+        if (chairmansThisYear && caWins > 2) streak++;
+        //System.out.println(t.number + "'s final streak is " + streak);
         cpr = caWins + (eiWins * .75) + streak;
         setData(t, "cpr", cpr);
         //System.out.println(t.number + " CPR breakdown: " + caWins + " RCA wins, " + eiWins + " EI win(s), and a RCA/EI streak of " + streak + ".");
