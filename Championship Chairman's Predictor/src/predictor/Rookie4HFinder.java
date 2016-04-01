@@ -3,6 +3,8 @@ package predictor;
 import org.json.JSONArray;
 import predictor.wrappers.Event;
 import predictor.wrappers.Team;
+import predictor.wrappers.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class Rookie4HFinder {
             }
             //System.out.println(t.fullName.toLowerCase());
         }
-        JSONArray events = Main.getArray("events/2016");
+        JSONArray events = Utils.getArray("events/2016");
         System.out.println(events.length() + " events this year");
     }
 }

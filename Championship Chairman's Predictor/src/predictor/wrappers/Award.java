@@ -2,7 +2,6 @@ package predictor.wrappers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import predictor.Main;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +9,7 @@ public class Award {
 
     public final String name;
     public final int type;
+    public final boolean district;
     public final String event;
     public final int year;
     public final boolean oneWinner;
@@ -19,10 +19,11 @@ public class Award {
     public Award(JSONObject o) {
         name = o.getString("name");
         type = o.getInt("award_type");
+        district = name.toLowerCase().contains("district");
         event = o.getString("event_key");
         year = Integer.parseInt(event.substring(0, 4));
         JSONArray jsonWinners = o.getJSONArray("recipient_list");
-        for (JSONObject jW : Main.getObjects(jsonWinners)) {
+        for (JSONObject jW : Utils.getObjects(jsonWinners)) {
             int winnerNumber = -1;
             if (!jW.isNull("team_number")) {
                 Object numObj = jW.get("team_number");
