@@ -2,12 +2,9 @@ package predictor.wrappers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import predictor.Main;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import predictor.main.Utils;
+
+import java.util.*;
 
 public class Team {
 
@@ -18,6 +15,7 @@ public class Team {
     public double cpr = -1;
     private List<Award> awards = null;
     private List<Event> events = null;
+    private List<String> eventKeys = null;
 
     //TODO: getAwardsInRange(start, finish)
 
@@ -63,48 +61,53 @@ public class Team {
      * @return All the awards this Team won before a certain time.
      */
     public List<Award> getAwardsBefore(String key) {
-        List<Award> aws = new ArrayList<>();
-        int year = Integer.parseInt(key.substring(0, 4));
+        Event before = new Event(key);
+        before.initInfo();
+        return getAwardsBefore(before);
+    }
 
-        List<String> validKeys = new ArrayList<>();
-        boolean before = false;
-        //System.out.println("Getting all awards before " + key + " for team " + number);
-        for (Event e : getOfficialEvents()) {
-            if (before) {
-                //System.out.println("Awards from " + e.name + " " + e.year + " will be counted for team " + number);
-                validKeys.add(e.key);
-            } else {
-                //System.out.println("Awards from " + e.name + " " + e.year + " will NOT be counted for team " + number);
-                if (key.contains("cmp")) { //If this is champs
-                    for (String s : Main.allDivisions) {
-                        if (e.key.equalsIgnoreCase(year + s)) {
-                            before = true;
-                            break;
-                        }
-                    }
-                    if (!before && e.key.contains("cmp")) {
-                        before = true;
-                    }
-                } else {
-                    if (e.key.equals(key)) before = true;
-                }
-            }
-        }
+    /**
+     * Gets all the awards this Team won before a certain event.
+     *
+     * @param before The Event.
+     * @return All the awards this Team won before the Event.
+     */
+    public List<Award> getAwardsBefore(Event before) {
+        return getAwardsBefore(before.date);
+    }
+
+    /**
+     * Gets all the awards this Team won before a certain date.
+     *
+     * @param before The Date.
+     * @return All the awards this Team won before the Date.
+     */
+    public List<Award> getAwardsBefore(Date before) {
+        List<Award> aws = new ArrayList<>();
         for (Award a : getAllAwards()) {
-            if (validKeys.contains(a.event)) {
+            Event awardingEvent = getEvent(a.event);
+            if (awardingEvent.date.before(before)) {
                 aws.add(a);
             }
         }
-        //System.out.println("end");
         return aws;
     }
 
+    /**
+     * Gets all awards this Team has won.
+     *
+     * @return All the awards this Team has won.
+     */
     public List<Award> getAllAwards() {
+        if (eventKeys == null) getAllEvents();
         if (awards == null) {
             awards = new ArrayList<>();
             JSONArray jsonAwards = Utils.getArray("team/frc" + number + "/history/awards");
             for (JSONObject jA : Utils.getObjects(jsonAwards)) {
-                awards.add(new Award(jA));
+                Award a = new Award(jA);
+                if (eventKeys.contains(a.event)) {
+                    awards.add(new Award(jA));
+                }
             }
             Collections.sort(awards, awardYear);
         }
@@ -118,24 +121,13 @@ public class Team {
      * @return An existing Event object.
      */
     public Event getEvent(String key) {
-        for (Event e : events) {
+        for (Event e : getAllEvents()) {
             if (e.key.equalsIgnoreCase(key)) {
                 return e;
             }
         }
         return null;
     }
-
-    /**
-     * Gets every official FIRST Event this Team has attended.
-     *
-     * @return Every official FIRST Event this Team has attended.
-     */
-    public List<Event> getOfficialEvents() {
-        List<Event> off = getAllEvents().stream().filter(e -> e.official).collect(Collectors.toList());
-        return off;
-    }
-
     /**
      * Gets every Event this Team has attended.
      *
@@ -144,9 +136,14 @@ public class Team {
     public List<Event> getAllEvents() {
         if (events == null) {
             events = new ArrayList<>();
+            eventKeys = new ArrayList<>();
             JSONArray jsonEvents = Utils.getArray("team/frc" + number + "/history/events");
             for (JSONObject o : Utils.getObjects(jsonEvents)) {
-                events.add(new Event(o));
+                Event e = new Event(o);
+                if (e.official) {
+                    events.add(e);
+                    eventKeys.add(e.key);
+                }
             }
             Collections.sort(events, eventOrder);
         }

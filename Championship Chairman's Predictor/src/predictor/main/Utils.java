@@ -1,4 +1,4 @@
-package predictor.wrappers;
+package predictor.main;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -7,12 +7,24 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Utils {
 
     private static final String tbaAPI = "https://www.thebluealliance.com/api/v2/";
     private static final String tbaID = "?X-TBA-App-Id=frc1902:chairmans_predictions:v0.1";
+
+    public static void log(String s) {
+        System.out.println(s);
+    }
+
+    public static int getYear(Date d) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        return cal.get(Calendar.YEAR);
+    }
 
     public static double roundToPlace(double d, double place) {
         double amount = 1;
@@ -55,7 +67,7 @@ public class Utils {
 
             URLConnection uc = new URL(s).openConnection();
 
-            uc.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+            uc.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36");
 
             InputStream is = uc.getInputStream();
 

@@ -2,6 +2,8 @@ package predictor.wrappers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import predictor.main.Main;
+import predictor.main.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,7 +14,6 @@ import java.util.Locale;
 
 public class Event {
 
-    //TODO: boolean for official event or not
     public String key;
     public boolean init = false;
     public String name = null;
@@ -45,7 +46,7 @@ public class Event {
                 try {
                     date = format.parse(o.getString("end_date"));
                 } catch (Exception e) {
-                    date = format.parse("0001-01-01");
+                    date = format.parse("2999-01-01");
                 }
                 if (o.has("event_type_string") && !o.isNull("event_type_string")) {
                     String typeString = o.getString("event_type_string");
@@ -67,6 +68,7 @@ public class Event {
             System.out.println("Event.initInfo() exception!");
             e.printStackTrace();
         }
+        if (date == null) System.out.println("Event \"" + name + "\" has a null date!");
     }
 
     public void initInfo() {
@@ -82,6 +84,27 @@ public class Event {
             }
         }
         return new ArrayList<>(teams);
+    }
+
+    public static List<Team> getTeamsAtChamps(int year) {
+        List<Team> teams = new ArrayList<>();
+        if (year <= 2015) {
+            Utils.log("Reading teams from Championship divisions...");
+            String[] divs;
+            if (year <= 2014) divs = Main.originalDivisions;
+            else divs = Main.allDivisions;
+            for (String s : divs) {
+                Event e = new Event(year + s);
+                e.initInfo();
+                Utils.log(e.name + "...");
+                for (Team t : e.getTeams()) {
+                    teams.add(t);
+                }
+            }
+        } else {
+            teams = new Event(year + "cmp").getTeams();
+        }
+        return teams;
     }
 
     public enum Type {

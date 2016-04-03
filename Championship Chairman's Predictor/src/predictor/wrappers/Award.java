@@ -2,6 +2,8 @@ package predictor.wrappers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import predictor.main.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,4 +52,7 @@ public class Award {
             winner = -1;
         }
     }
+
+    public static final int CHAIRMANS = 0;
+    public static final int ENGINEERING_INSPIRATION = 9;
 }
