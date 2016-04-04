@@ -1,46 +1,37 @@
 package predictor.main;
 
-import predictor.modules.EventModule;
+import predictor.modules.CPRGraphModule;
 import predictor.modules.Module;
 import predictor.wrappers.*;
 import java.util.*;
 
 public class Main {
 
-    //TODO: Look at Frog Force's 2015 Champs CPR and figure out why it is so high
-
-    private static final Module module = new EventModule("2015champs");
+    //private static final Module module = new EventModule("2016champs");
+    //private static final Module module = new SingleTeamCPRModule(11);
+    //private static final Module module = new Champs4HFinderModule(2015);
+    private static final Module module = new CPRGraphModule("2016_champs_team_history", 1241, 932, 2468, 1902, 2486, 987, 2614, 604, 1511, 3132, 537, 1868);
 
     public static final String[] allDivisions = new String[]{"arc", "cars", "carv", "cur", "gal", "hop", "new", "tes"};
     public static final String[] originalDivisions = new String[]{"gal", "arc", "cur", "new"};
 
+    public static final int thisYear = 2016;
+
     private static List<Team> teams = null;
-    private static List<Team> relevant = new ArrayList<>();
 
-    private static int currentTeam = 0;
-    private static int processedTeams = 0;
-    private static final Object TEAMS_USE = new Object();
-
-    private static final int threadsToUse = 30;
-    public static int threadsDone = 0;
+    public static final int threadsToUse = 3;
+    public static final int yearsBackwards = 3;
 
     public static void main(String args[]) {
 
         teams = module.getTeams();
+        Utils.log("Teams size: " + teams.size());
 
         double getStart = System.currentTimeMillis();
 
-        for (int i=0; i<threadsToUse; i++) {
-            Thread thread = new Thread(Main::processTeams);
-            thread.setName("Team Processing Thread #" + (i + 1));
-            thread.start();
-        }
+        Processing.processTeams(teams, (t) -> module.processTeam(t), threadsToUse);
 
-        while (threadsDone < threadsToUse) {
-            try {
-                Thread.sleep(25);
-            } catch (Exception ignored) {}
-        }
+        //Processing.threadedProcess(threadsToUse, "Team", Main::processTeams);
 
         double secondsTaken = (System.currentTimeMillis() - getStart) / 1000;
         if (secondsTaken > 60) {
@@ -49,27 +40,6 @@ public class Main {
             Utils.log("Time taken: " + secondsTaken + "s");
         }
 
-        module.finish(relevant);
-    }
-
-    /**
-     * Starts processing all the teams in the Team list.
-     */
-    public static void processTeams() {
-        while (currentTeam < teams.size()) {
-            Team t;
-            synchronized (TEAMS_USE) {
-                t = teams.get(currentTeam);
-                currentTeam++;
-            }
-            boolean keep = module.processTeam(t);
-            if (keep) {
-                relevant.add(t);
-            }
-            processedTeams++;
-            Utils.log("Processed team " + t.number + " - (" + processedTeams + " / " + teams.size() + ")");
-            //TODO: bring back percentage of completion
-        }
-        threadsDone++;
+        module.finish();
     }
 }

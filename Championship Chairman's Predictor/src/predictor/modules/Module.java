@@ -13,17 +13,16 @@ public interface Module {
     List<Team> getTeams();
 
     /**
-     * Processes one of the Teams and determines if they should be kept or not.
+     * Processes one of the Teams.
      *
      * @param t The Team being processed.
-     * @return If the Team should be kept or not.
      */
-    boolean processTeam(Team t);
+    void processTeam(Team t);
 
     /**
-     * Runs the Module's handling code for the list of Teams that passed processing.
-     * @param relevant The list of Teams that passed processing.
+     * Runs the Module's handling code for the list of Teams that passed processing. The Module should internally
+     * keep track of the Teams it cares about.
      */
-    void finish(List<Team> relevant);
+    void finish();
 
 }

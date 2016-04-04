@@ -6,10 +6,9 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Utils {
 
@@ -18,6 +17,35 @@ public class Utils {
 
     public static void log(String s) {
         System.out.println(s);
+    }
+
+    /**
+     * If d is null, a new Date will be returned. Otherwise, d will be returned.
+     *
+     * @param d The Date to check.
+     * @return If d is null, a new Date will be returned. Otherwise, d will be returned.
+     */
+    public static Date makeSafe(Date d) {
+        try {
+            if (d == null) {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                return format.parse("2016-12-31"); //TODO: change this to use current system year
+            }
+            return d;
+        } catch (Exception e) {
+            return d;
+        }
+    }
+
+    public static Date makeDate(String date) {
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            return format.parse(date); //TODO: change this to use current system year
+        } catch (Exception e) {
+            log("Date.makeDate() exception!");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static int getYear(Date d) {
@@ -67,7 +95,7 @@ public class Utils {
 
             URLConnection uc = new URL(s).openConnection();
 
-            uc.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36");
+            uc.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko");
 
             InputStream is = uc.getInputStream();
 

@@ -84,12 +84,15 @@ public class Team {
      */
     public List<Award> getAwardsBefore(Date before) {
         List<Award> aws = new ArrayList<>();
+        //Utils.log("Total team awards: " + getAllAwards().size());
         for (Award a : getAllAwards()) {
-            Event awardingEvent = getEvent(a.event);
+            Event awardingEvent = getEvent(a.eventKey);
+            awardingEvent.initInfo();
             if (awardingEvent.date.before(before)) {
                 aws.add(a);
             }
         }
+        //Utils.log(number + " has " + awards.size() + " awards before " + before .toString());
         return aws;
     }
 
@@ -105,7 +108,7 @@ public class Team {
             JSONArray jsonAwards = Utils.getArray("team/frc" + number + "/history/awards");
             for (JSONObject jA : Utils.getObjects(jsonAwards)) {
                 Award a = new Award(jA);
-                if (eventKeys.contains(a.event)) {
+                if (eventKeys.contains(a.eventKey)) {
                     awards.add(new Award(jA));
                 }
             }
@@ -128,6 +131,22 @@ public class Team {
         }
         return null;
     }
+
+    /**
+     * Gets every Event this Team has attended before a certain Date.
+     *
+     * @param d The Date.
+     * @return Every Event this Team has attended before the Date.
+     */
+    public List<Event> getEventsBefore(Date d) {
+        List<Event> es = new ArrayList<>();
+        for (Event e : getAllEvents()) {
+            if (e.date.before(d)) {
+                es.add(e);
+            }
+        }
+        return es;
+    }
     /**
      * Gets every Event this Team has attended.
      *
@@ -148,6 +167,17 @@ public class Team {
             Collections.sort(events, eventOrder);
         }
         return new ArrayList<>(events);
+    }
+
+    /**
+     * Gets a Team.
+     *
+     * @param number The Team's number.
+     * @return A Team.
+     */
+    public static Team getTeam(int number) {
+        JSONObject team = Utils.getObject("team/frc" + number);
+        return new Team(team);
     }
 
     private static final Comparator<Event> eventOrder = (e1, e2) -> {

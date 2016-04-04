@@ -4,11 +4,13 @@ import predictor.main.Utils;
 import predictor.wrappers.Event;
 import predictor.wrappers.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Champs4HFinderModule implements Module {
 
     final int year;
+    List<Team> relevant = new ArrayList<>();
 
     public Champs4HFinderModule(int y) {
         year = y;
@@ -20,18 +22,18 @@ public class Champs4HFinderModule implements Module {
     }
 
     @Override
-    public boolean processTeam(Team t) {
+    public void processTeam(Team t) {
         String full = t.fullName.toLowerCase();
         if (full.contains("4h") || full.contains("4-h") || full.contains("4 h")) {
-            return true;
+            relevant.add(t);
         }
-        return false;
     }
 
     @Override
-    public void finish(List<Team> relevant) {
+    public void finish() {
+        Utils.log("Found " + relevant.size() + " 4-H teams! They are:");
         for (Team t : relevant) {
-            Utils.log(t.number + " (" + t.name + ") is a 4-H team!");
+            Utils.log(t.number + " (" + t.name + ")");
         }
     }
 }
