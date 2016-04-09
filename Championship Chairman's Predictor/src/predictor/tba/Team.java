@@ -1,12 +1,12 @@
-package predictor.wrappers;
+package predictor.tba;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import predictor.main.Utils;
-
+import java.io.Serializable;
 import java.util.*;
 
-public class Team {
+public class Team implements Serializable {
 
     public final String name;
     public final String fullName;
@@ -36,6 +36,78 @@ public class Team {
         } else {
             rookieYear = -1;
         }
+    }
+
+    public boolean isEligibleForChairmans(Event e) {
+        final int year = Utils.getYear(e.date);
+        if (isHOF(e.date)) return false;
+        if (e.type == Event.Type.REGIONAL) { //Must not have won a RCA yet
+            return !hasWonRCA(e.date);
+        } else if (e.type == Event.Type.DISTRICT) { //Must not have won DCA or RCA
+            return !hasWonDCA(e.districtID, e.date) && !hasWonRCA(e.date);
+        } else if (e.type == Event.Type.DISTRICT_CHAMPIONSHIP) { //Must have won DCA and not RCA
+            return hasWonDCA(e.districtID, e.date) && !hasWonRCA(e.date);
+        } else if (e.type == Event.Type.CHAMPIONSHIP_FINALS) { //Must have won RCA
+            int rcaWins = 0;
+            for (Award a : getAwardsBefore(e)) {
+                if (a.type == Award.CHAIRMANS && a.regional) {
+                    rcaWins++;
+                }
+            }
+            return (rcaWins > 3 || year <= 2010) && hasWonRCA(e.date);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if this Team had won the RCA during the year of the given Date, but before the Date.
+     *
+     * @param d The Date.
+     * @return if this Team had won the RCA during the year of the given Date.
+     */
+    public boolean hasWonRCA(Date d) {
+        int year = Utils.getYear(d);
+        for (Award a : getAwardsBefore(d)) {
+            if (a.year == year && a.type == Award.CHAIRMANS && a.regional) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if this Team had won the DCA during the year of the given Date, but before the Date.
+     *
+     * @param districtID The ID of the District we're looking for DCA's in.
+     * @param d The Date.
+     * @return if this Team had won the DCA during the year of the given Date.
+     */
+    public boolean hasWonDCA(int districtID, Date d) {
+        int year = Utils.getYear(d);
+        for (Award a : getAwardsBefore(d)) {
+            if (a.year == year && a.type == Award.CHAIRMANS && a.district && a.event.districtID == districtID) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if this Team is in the Hall of Fame (AKA has won the Championship Chairman's Award).
+     *
+     * @param d The date from which this check is being made.
+     * @return If this Team is in the Hall of Fame.
+     */
+    public boolean isHOF(Date d) {
+        for (Award a : getAwardsBefore(d)) {
+            if (a.type == Award.CHAIRMANS && !a.district) {
+                if (a.champs) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -170,7 +242,7 @@ public class Team {
     }
 
     /**
-     * Gets a Team.
+     * Gets a Team. TODO: Do not use until this uses the same saving system as Event.getEvent()
      *
      * @param number The Team's number.
      * @return A Team.

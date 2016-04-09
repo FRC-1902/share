@@ -12,10 +12,13 @@ import java.util.*;
 
 public class Utils {
 
+    private static List<String> logs = new ArrayList<>();
+
     private static final String tbaAPI = "https://www.thebluealliance.com/api/v2/";
     private static final String tbaID = "?X-TBA-App-Id=frc1902:chairmans_predictions:v0.1";
 
     public static void log(String s) {
+        logs.add(s);
         System.out.println(s);
     }
 
@@ -53,6 +56,19 @@ public class Utils {
         cal.setTime(d);
         return cal.get(Calendar.YEAR);
     }
+
+    public static int getMonth(Date d) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        return cal.get(Calendar.MONTH);
+    }
+
+    public static int getDay(Date d) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        return cal.get(Calendar.DAY_OF_MONTH);
+    }
+
 
     public static double roundToPlace(double d, double place) {
         double amount = 1;
@@ -110,5 +126,9 @@ public class Utils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void makeSeparator() {
+         log("------------------------");
     }
 }

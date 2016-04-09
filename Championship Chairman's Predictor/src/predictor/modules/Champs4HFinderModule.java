@@ -1,8 +1,8 @@
 package predictor.modules;
 
 import predictor.main.Utils;
-import predictor.wrappers.Event;
-import predictor.wrappers.Team;
+import predictor.tba.Event;
+import predictor.tba.Team;
 
 import java.util.ArrayList;
 import java.util.List;

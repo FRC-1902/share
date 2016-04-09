@@ -1,6 +1,6 @@
 package predictor.main;
 
-import predictor.wrappers.Team;
+import predictor.tba.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -9,16 +9,20 @@ public class Processing {
 
     //TODO: figure out occasional freeze on the last team to be processed
 
-    public static void processTeams(List<Team> teams, Consumer<Team> teamProcessor, int threads) {
+    public static void processTeams(List<Team> teams, Consumer<Team> teamProcessor, int threads, boolean verbose) {
         TeamProcessTracker tracker = new TeamProcessTracker(teams);
         threadedProcess(threads, "Team", (con) -> {
-            doProcessTeams(teamProcessor, con);
+            doProcessTeams(teamProcessor, con, verbose);
         }, tracker);
     }
 
-    private static void doProcessTeams(Consumer<Team> teamProcessor, ThreadProcessTracker threadTracker) {
+    private static void doProcessTeams(Consumer<Team> teamProcessor, ThreadProcessTracker threadTracker, boolean verbose) {
         TeamProcessTracker tracker = (TeamProcessTracker) threadTracker;
-        while (tracker.currentTeam < tracker.teams.size()) {
+        int currentTeam;
+        synchronized (tracker.TRACKER_USE) {
+            currentTeam = tracker.currentTeam;
+        }
+        while (currentTeam < tracker.teams.size()) { //TODO: synchronize tracker.currentTeam?
             Team t = null;
             boolean stillGo;
             synchronized (tracker.TEAMS_USE) {
@@ -31,15 +35,25 @@ public class Processing {
             if (stillGo) {
                 teamProcessor.accept(t);
 
-                tracker.processedTeams++;
+                int processedTeams;
+                synchronized (tracker.TRACKER_USE) {
+                    tracker.processedTeams++;
+                    processedTeams = tracker.processedTeams;
+                }
 
-                Double percent = tracker.processedTeams / (tracker.teams.size() * 1.0);
-                percent = Utils.roundToPlace(percent * 100, 0);
-                Utils.log("Processed team " + t.number + " - (" + tracker.processedTeams + " / " + tracker.teams.size() + ") " + percent.intValue() + "%");
-
+                if (verbose) {
+                    Double percent = processedTeams / (tracker.teams.size() * 1.0);
+                    percent = Utils.roundToPlace(percent * 100, 0);
+                    Utils.log("Processed team " + t.number + " - (" + processedTeams + " / " + tracker.teams.size() + ") " + percent.intValue() + "%");
+                }
+            }
+            synchronized (tracker.TRACKER_USE) {
+                currentTeam = tracker.currentTeam;
             }
         }
-        tracker.threadsDone++;
+        synchronized (tracker.TRACKER_USE) {
+            tracker.threadsDone++;
+        }
     }
 
 
@@ -69,6 +83,7 @@ public class Processing {
     }
 
     public static class TeamProcessTracker extends ThreadProcessTracker {
+        public final Object TRACKER_USE = new Object();
         public List<Team> teams;
         public final Object TEAMS_USE = new Object();
         public int currentTeam = 0;

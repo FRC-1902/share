@@ -1,9 +1,10 @@
-package predictor.wrappers;
+package predictor.tba;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import predictor.main.Main;
 import predictor.main.Utils;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Event {
+public class Event implements Serializable {
 
     private static List<Event> allEvents = new ArrayList<>();
     private static Object ALL_EVENTS_USE = new Object();
@@ -21,6 +22,7 @@ public class Event {
     public String name = null;
     public String shortName = null;
     public Integer year = null;
+    public Boolean champs = null;
     public Boolean district = null;
     public Integer districtID = null;
     public Boolean official = null;
@@ -54,6 +56,25 @@ public class Event {
             } catch (Exception e) {
                 date = Utils.makeSafe(date);
             }
+            if (o.has("event_type") && !o.isNull("event_type")) {
+                int typeInt = o.getInt("event_type");
+                if (typeInt == 0) type = Type.REGIONAL;
+                else if (typeInt == 1) type = Type.DISTRICT;
+                else if (typeInt == 2) type = Type.DISTRICT_CHAMPIONSHIP;
+                else if (typeInt == 3) type = Type.CHAMPIONSHIP_DIVISION;
+                else if (typeInt == 4) type = Type.CHAMPIONSHIP_FINALS;
+                else if (typeInt == 99) type = Type.OFFSEASON;
+                else if (typeInt == 100) type = Type.PRESEASON;
+                else {
+                    type = Type.UNKNOWN;
+                    if (typeInt != -1) Utils.log("Unknown event type \"" + typeInt + "\".");
+                }
+            } else {
+                if (district) type = Type.DISTRICT;
+                else type = Type.REGIONAL;
+            }
+
+            /*
             if (o.has("event_type_string") && !o.isNull("event_type_string")) {
                 String typeString = o.getString("event_type_string");
                 if (typeString.equalsIgnoreCase("regional")) type = Type.REGIONAL;
@@ -68,6 +89,8 @@ public class Event {
                 if (district) type = Type.DISTRICT;
                 else type = Type.REGIONAL;
             }
+            */
+            champs = type == Type.CHAMPIONSHIP_DIVISION || type == Type.CHAMPIONSHIP_FINALS;
             init = true;
             boolean duplicate = false;
             synchronized (ALL_EVENTS_USE) {
@@ -126,6 +149,24 @@ public class Event {
     }
 
     /**
+     * Gets the winner(s) of a certain Award at this Event.
+     * .
+     * @param award The award type.
+     * @return The winner(s) of a certain Award.
+     */
+    public List<Team> getWinnersOf(int award) {
+        List<Team> winners = new ArrayList<>();
+        for (Award a : getAwards()) {
+            if (a.type == award) {
+                for (int i : a.winners) {
+                    winners.add(getTeam(i));
+                }
+            }
+        }
+        return winners;
+    }
+
+    /**
      * Gets all the Awards given out at this Event.
      *
      * @return All the Awards given out at this Event.
@@ -158,6 +199,65 @@ public class Event {
         Event e = new Event(key);
         e.initInfo();
         return e;
+    }
+
+    /**
+     * Gets any other Events that are running at a similar time as "event".
+     *
+     * @param event The Event.
+     * @return Any other Events that are running at a similar time as "event".
+     */
+    public static List<Event> getConcurrentEvents(Event event) {
+        List<Event> es = new ArrayList<>();
+        int month = Utils.getMonth(event.date);
+        int day = Utils.getDay(event.date);
+        Utils.log(day + " is the sample day.");
+        for (Event e : getEventsFrom(Utils.getYear(event.date))) {
+            int eMonth = Utils.getMonth(e.date);
+            int eDay = Utils.getDay(e.date);
+            if (month == eMonth) {
+                if ((day + 4) >= eDay && (day - 2) <= eDay) { //TODO: tweak?
+                    //Utils.log(eDay + " is a similar day.");
+                    es.add(e);
+                }
+            }
+        }
+        return es;
+    }
+
+    private static List<Integer> gotEventsForYear = new ArrayList<>();
+
+    /**
+     * Gets all the Events from a given year.
+     *
+     * @param year The year.
+     * @return All the events from the given year.
+     */
+    public static List<Event> getEventsFrom(int year) {
+        List<Event> es = new ArrayList<>();
+        if (gotEventsForYear.contains(year)) {
+            for (Event e : getAllSavedEvents()) {
+                if (e.year == year) es.add(e);
+            }
+        } else {
+            JSONArray eventArray = Utils.getArray("events/" + year);
+            for (JSONObject jE : Utils.getObjects(eventArray)) {
+                es.add(new Event(jE));
+            }
+            gotEventsForYear.add(year);
+        }
+        return es;
+    }
+
+    /**
+     * Gets all the Event objects that have been previously created.
+     *
+     * @return All the Event objects that have been previously created.
+     */
+    public static List<Event> getAllSavedEvents() {
+        synchronized (ALL_EVENTS_USE) {
+            return new ArrayList<>(allEvents);
+        }
     }
 
     /**
@@ -195,6 +295,8 @@ public class Event {
         CHAMPIONSHIP_FINALS,
 
         OFFSEASON,
-        PRESEASON
+        PRESEASON,
+
+        UNKNOWN
     }
 }

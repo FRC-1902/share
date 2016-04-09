@@ -1,12 +1,10 @@
 package predictor.modules;
 
-import predictor.main.CPR;
-import predictor.main.Main;
-import predictor.main.Processing;
-import predictor.main.Utils;
-import predictor.wrappers.Team;
+import predictor.graph.CSV;
+import predictor.graph.LineGraph;
+import predictor.main.*;
+import predictor.tba.Team;
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,37 +31,54 @@ public class CPRGraphModule implements Module {
     @Override
     public void finish() {
         try {
-            File file = new File(name + ".csv");
-            if (file.exists()) file.delete();
-            file.createNewFile();
-            FileWriter writer = new FileWriter(file);
-            String valueKey = "Year, ";
+            CSV csv = new CSV();
+
+            File graphFile = new File("output/" + name + "_image.png");
+            graphFile.mkdirs();
+            if (graphFile.exists()) graphFile.delete();
+            LineGraph g = new LineGraph("Team CPRs", "Year", "CPR");
+
             int currYear = Integer.MAX_VALUE;
             for (Team t : teams) {
-                valueKey = valueKey + ", \"" + t.name + "\"";
                 if (t.rookieYear < currYear) {
                     currYear = t.rookieYear;
                 }
             }
-            writer.write(valueKey + "\n");
+            boolean lastWasAllZeros = false;
             while (currYear <= Main.thisYear) {
-                String values = currYear + ", ";
+                csv.addData("Year", currYear); //csv
+                //String values = currYear + "";
                 final int currCurrYear = currYear;
                 Processing.processTeams(teams, (t) -> {
-                    CPR.calculateComplexCPR(t, Utils.makeDate(currCurrYear + "-12-31"));
-                }, Main.threadsToUse);
+                    CPR.calculateComplexCPR(t, Utils.makeDate(currCurrYear + "-12-31"), true);
+                }, Main.threadsToUse, true);
 
                 Utils.log(currYear + " complete!");
 
+                int zeros = 0;
                 for (Team t : teams) {
-                    values = values + ", " + t.cpr;
+                    csv.addData(t.name, t.cpr); //csv
+                    //values = values + ", " + t.cpr;
+                    if (t.cpr == 0) zeros++;
                 }
-                writer.write(values + "\n");
+                if (zeros < teams.size()) {
+                    for (Team t : teams) {
+                        g.addData(t.name, currYear, t.cpr);
+                        if (lastWasAllZeros) g.addData(t.name, currYear - 1, 0);
+                    }
+                    if (lastWasAllZeros) lastWasAllZeros = false;
+                } else {
+                    lastWasAllZeros = true;
+                }
+                //writer.write(values + "\n");
                 currYear++;
             }
-            writer.flush();
-            writer.close();
-            Utils.log(name + ".csv has been generated.");
+            csv.saveAs("output/" + name + ".csv");
+            //writer.flush();
+            //writer.close();
+            Utils.log("Graph path: " + graphFile.getPath());
+            g.saveAs(graphFile.getPath());
+            //Utils.log(name + ".csv and " + name + "_graph.png has been generated.");
         } catch (Exception e) {
             Utils.log("CPRGraphModule.finish() exception!");
             e.printStackTrace();

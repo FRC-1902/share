@@ -1,11 +1,13 @@
 package predictor.main;
 
-import predictor.wrappers.Award;
-import predictor.wrappers.Event;
-import predictor.wrappers.Team;
+import predictor.tba.Award;
+import predictor.tba.Event;
+import predictor.tba.Team;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 public class CPR {
 
     private static final double rcaPoint = 1, eiPoint = .75, dcaPoint = .5, deiPoint = .35;
@@ -48,6 +50,7 @@ public class CPR {
                     } else {
                         eiWins++;
                         if (a.year == year) thisYearBonus += eiPoint;
+                        if (a.champs) thisYearBonus += eiPoint; //Not really a "this year bonus", but champs E.I. gets a bonus
                     }
                 }
             }
@@ -70,7 +73,6 @@ public class CPR {
                         if (a.year == currYear && a.type == Award.ENGINEERING_INSPIRATION && !a.district && !streakContinued) {
                             streakPoints += eiPoint;
                             streakLength++;
-                            streakPoints += .75;
                             streakContinued = true;
                         }
                     }
@@ -92,51 +94,60 @@ public class CPR {
      *
      * @param t The Team.
      * @param d The Date that this CPR is based off of. Awards won at Events after this Date are ignored.
+     * @param redoSimple If true, this will first call calculateSimpleCPR() on the Team.
      */
-    public static void calculateComplexCPR(Team t, Date d) {
-        calculateSimpleCPR(t, d);
+    public static void calculateComplexCPR(Team t, Date d, boolean redoSimple) {
+        if (redoSimple) calculateSimpleCPR(t, d);
         d = Utils.makeSafe(d);
+        int wins = 0;
         int goodWins = 0;
         double defeatedOpponentBonus = 0;
         final int year = Utils.getYear(d);
+
         for (Event e : t.getEventsBefore(d)) {
-            if (e.year <= year && e.year >= (year - Main.yearsBackwards)) {
-                Team winner = null;
-                Team second = null;
-                for (Award a : e.getAwards()) {
-                    if (!a.district) { //Don't count DCA and DEI
-                        //TODO: support winning E.I. over the highest CPR that did not get RCA or E.I. (eventually)
-                        if (a.type == Award.CHAIRMANS) {
-                            winner = e.getTeam(a.winner);
-                        } else if (a.type == Award.ENGINEERING_INSPIRATION) {
-                            second = e.getTeam(a.winner);
+            if (e.year <= year && e.year >= (year - Main.yearsBackwards) && !e.district) {
+                boolean caWin = false, eiWin = false;
+                List<Integer> caWinners = e.getWinnersOf(Award.CHAIRMANS).stream().map(team -> team.number).collect(Collectors.toList());
+                List<Integer> eiWinners = e.getWinnersOf(Award.ENGINEERING_INSPIRATION).stream().map(team -> team.number).collect(Collectors.toList());
+                if (caWinners.contains(t.number)) caWin = true;
+                else if (eiWinners.contains(t.number)) eiWin = true;
+                eiWin = false;
+                if (caWin || eiWin) {
+                    Processing.processTeams(e.getTeams(), (Team team) -> {
+                        CPR.calculateSimpleCPR(team, e.date);
+                    }, Main.threadsToUse, false);
+
+                    Team biggest = null;
+                    for (Team team : e.getTeams()) {
+                        if (team.number != t.number) {
+                            if ((caWin && !caWinners.contains(team.number)) || (eiWin && !caWinners.contains(team.number) && !eiWinners.contains(team.number))) {
+                                if (biggest == null) {
+                                    biggest = team;
+                                } else {
+                                    if (team.cpr > biggest.cpr) biggest = team;
+                                }
+                            }
                         }
                     }
-                }
-                if (winner != null && second != null && winner.number == t.number) {
-                    calculateSimpleCPR(second, d);
-                    //Utils.log(winner.number + " beat " + second.number + " at " + e.name + ". " + second.number + " had a CPR of " + second.cpr + ".");
-                    double oppCpr = second.cpr;
-                    if (oppCpr >= goodCPR) {
-                        goodWins++;
-                        int yearDiff = year - e.year;
-                        double points = 0;
-                        switch(yearDiff) {
-                            case 0:
-                                points = 2;
-                            case 1:
-                                points = 1;
-                            case 2:
-                                points = 0.5;
-                            case 3:
-                                points = 0.25;
+                    if (biggest != null) {
+                        wins++;
+                        double oppCpr = biggest.cpr;
+                        if (oppCpr >= goodCPR) {
+                            goodWins++;
+                            int yearDiff = year - e.year;
+                            double points = 0;
+                            if (yearDiff == 0) points = 2;
+                            else if (yearDiff == 1) points = 1;
+                            else if (yearDiff == 2) points = 0.5;
+                            else if (yearDiff == 3) points = 0.25;
+                            if (eiWin) points /= 2;
+                            defeatedOpponentBonus += points;
                         }
-                        defeatedOpponentBonus += points;
                     }
                 }
             }
         }
-        //Utils.log(t.number + " has a defeated opponent bonus of \"" + defeatedOpponentBonus + "\". They have " + goodWins + " good wins.");
+        //if (goodWins > 0) Utils.log(t.number + " has a defeated opponent bonus of \"" + defeatedOpponentBonus + "\". They have " + goodWins + " good wins and " + wins + " overall wins.");
         t.cpr += defeatedOpponentBonus;
     }
 

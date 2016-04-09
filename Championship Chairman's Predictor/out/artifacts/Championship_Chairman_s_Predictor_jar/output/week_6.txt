@@ -1,0 +1,147 @@
+
+
+------------------------
+Found 4 relevant teams at the 2016 Arizona West Regional (2016azpx). They are:
+------------------------
+1. 2375 (Dragon Robotics) - 3.0 CPR
+2. 2403 (Plasma Robotics) - 1.5 CPR
+3. 4841 (Optimal Robotics) - 1.5 CPR
+4. 1290 (Robowolves) - 0.75 CPR
+
+
+------------------------
+Found 5 relevant teams at the 2016 Silicon Valley Regional presented by Google.org (2016casj). They are:
+------------------------
+1. 3256 (WarriorBorgs) - 5.5 CPR
+2. 1700 (Gatorbotics) - 3.0 CPR
+3. 2035 (Robo Rockin' Bots) - 0.75 CPR
+4. 4159 (CardinalBotics) - 0.75 CPR
+5. 846 (The Funky Monkeys) - 0.75 CPR
+
+
+------------------------
+Found 7 relevant teams at the 2016 FIRST Chesapeake District Championship sponsored by Booz Allen Hamilton (2016chcmp). They are:
+------------------------
+1. 1629 (Garrett Coalition (GaCo)) - 7.85 CPR
+2. 384 (Sparky 384) - 7.75 CPR
+3. 1885 (ILITE Robotics) - 6.75 CPR
+4. 1086 (Blue Cheese) - 3.0 CPR
+5. 4945 (Titanium-Wrecks) - 2.0 CPR
+6. 116 (Epsilon Delta) - 1.25 CPR
+7. 2363 (Triple Helix) - 0.5 CPR
+
+
+------------------------
+Found 5 relevant teams at the 2016 PCH District - Kennesaw Event (2016gaken). They are:
+------------------------
+1. 1311 (Kell Robotics) - 7.75 CPR
+2. 1746 (OTTO) - 1.5 CPR
+3. 2415 (WiredCats) - 1.5 CPR
+4. 4468 (Fernbank LINKS) - 1.5 CPR
+5. 4910 (East Cobb Robotics) - 0.35 CPR
+
+
+------------------------
+Found 5 relevant teams at the 2016 NE District - Pine Tree Event (2016melew). They are:
+------------------------
+1. 172 (Northern Force) - 1.45 CPR
+2. 1519 (Mechanical Mayhem) - 1.2 CPR
+3. 3930 (SMART  Spruce Mountain Area Robotics Team) - 0.7 CPR
+4. 3525 (The Nuts & Bolts of Fury) - 0.35 CPR
+5. 4546 (ShockWave) - 0.35 CPR
+
+
+------------------------
+Found 2 relevant teams at the 2016 FIM District - Ann Arbor Skyline Event (2016miann). They are:
+------------------------
+1. 3641 (The Flying Toasters) - 1.7 CPR
+2. 3322 (Eagle Imperium) - 0.35 CPR
+
+
+------------------------
+Found 2 relevant teams at the 2016 FIM District - Woodhaven Event (2016mibro). They are:
+------------------------
+1. 280 (TnT) - 1.0 CPR
+2. 3175 (Knight Vision) - 0.35 CPR
+
+
+------------------------
+Found 3 relevant teams at the 2016 FIM District - Traverse City Event (2016mitvc). They are:
+------------------------
+1. 1711 (Raptors) - 1.2 CPR
+2. 4956 (Robosharks) - 0.35 CPR
+3. 94 (The  Technojays) - 0.35 CPR
+
+
+------------------------
+Found 3 relevant teams at the 2016 Minnesota 10000 Lakes Regional (2016mnmi). They are:
+------------------------
+1. 2502 (Talon Robotics) - 1.5 CPR
+2. 3630 (The Stampede) - 1.5 CPR
+3. 3018 (Nordic Storm) - 0.75 CPR
+
+
+------------------------
+Found 3 relevant teams at the 2016 Minnesota North Star Regional (2016mnmi2). They are:
+------------------------
+1. 2169 (KING TeC) - 4.0 CPR
+2. 2826 (Wave Robotics) - 3.25 CPR
+3. 3928 (Team Neutrino) - 0.75 CPR
+
+
+------------------------
+Found 4 relevant teams at the 2016 NC FIRST Robotics State Championship (2016nccmp). They are:
+------------------------
+1. 2655 (The Flying Platypi) - 6.0 CPR
+2. 3506 (YETI Robotics) - 2.5 CPR
+3. 2642 (Pitt Pirates) - 2.35 CPR
+4. 3737 (Roto-Raptors) - 0.5 CPR
+
+
+------------------------
+Found 6 relevant teams at the 2016 MAR District - Montgomery Event (2016njski). They are:
+------------------------
+1. 303 (The T.E.S.T. Team) - 2.35 CPR
+2. 433 (Firebirds) - 2.0 CPR
+3. 1403 (Cougar Robotics) - 0.35 CPR
+4. 190 (Gompei and the H.E.R.D.) - 0.35 CPR
+5. 3314 (Mechanical Mustangs) - 0.35 CPR
+6. 4575 (The Tin Mints) - 0.35 CPR
+
+
+------------------------
+Found 5 relevant teams at the 2016 Windsor Essex Great Lakes Regional (2016onwi). They are:
+------------------------
+1. 1305 (Ice Cubed) - 10.0 CPR
+2. 771 (SWAT) - 10.0 CPR
+3. 1334 (Red Devils) - 2.25 CPR
+4. 772 (Sabre Bytes) - 2.25 CPR
+5. 5024 (Raider Robotics) - 1.5 CPR
+
+
+------------------------
+Found 9 relevant teams at the 2016 Pacific Northwest District Championship sponsored by Autodesk (2016pncmp). They are:
+------------------------
+1. 1540 (Flaming Chickens) - 8.1 CPR
+2. 1983 (Skunk Works Robotics) - 7.75 CPR
+3. 2557 (SOTAbots ) - 3.0 CPR
+4. 3574 (HIGH TEKERZ) - 2.45 CPR
+5. 4125 (Confidential) - 2.2 CPR
+6. 2980 (The Whidbey Island Wild Cats) - 2.1 CPR
+7. 4911 (CyberKnights) - 1.7 CPR
+8. 1510 (Wildcats) - 0.85 CPR
+9. 2471 (Team Mean Machine) - 0.5 CPR
+
+
+------------------------
+Found 9 relevant teams at the 2016 Lone Star Regional (2016txho). They are:
+------------------------
+1. 3103 (Iron Plaid) - 3.0 CPR
+2. 3847 (Spectrum) - 3.0 CPR
+3. 2158 (ausTIN CANs) - 2.25 CPR
+4. 2881 (Lady Cans) - 1.5 CPR
+5. 4731 (MONARCH-E) - 1.5 CPR
+6. 624 (CRyptonite) - 1.5 CPR
+7. 118 (Robonauts) - 0.75 CPR
+8. 233 (The Pink Team) - 0.75 CPR
+9. 4355 (CP-BOTS) - 0.75 CPR

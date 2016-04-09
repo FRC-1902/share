@@ -1,6 +1,6 @@
 package predictor.modules;
 
-import predictor.wrappers.Team;
+import predictor.tba.Team;
 import java.util.List;
 
 public interface Module {

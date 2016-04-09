@@ -1,0 +1,62 @@
+------------------------
+Found 3 relevant teams at the 2016 Peachtree District State Championship (2016gacmp). They are:
+------------------------
+1. 2974 (Walton Robotics) - 9.0 CPR
+2. 1261 (Robo  Lions) - 0.5 CPR
+3. 1648 (G3 Robotics) - 0.5 CPR
+
+
+------------------------
+Found 3 relevant teams at the 2016 Indiana State Championship (2016incmp). They are:
+------------------------
+1. 1741 (Red Alert) - 2.1 CPR
+2. 1747 (Harrison Boiler Robotics) - 0.5 CPR
+3. 868 (TechHOUNDS) - 0.5 CPR
+
+
+------------------------
+Found 18 relevant teams at the 2016 Michigan State Championship (2016micmp). They are:
+------------------------
+1. 503 (Frog Force) - 8.7 CPR
+2. 68 (Truck Town Thunder) - 6.35 CPR
+3. 1718 (The Fighting Pi) - 3.85 CPR
+4. 2137 (TORC) - 3.85 CPR
+5. 2604 (Metal and Soul) - 2.6 CPR
+6. 33 (Killer Bees) - 2.5 CPR
+7. 548 (Robostangs) - 2.35 CPR
+8. 2771 (Code Red Robotics / Stray Dogs) - 2.2 CPR
+9. 2834 (Bionic Black Hawks) - 2.2 CPR
+10. 1322 (Genesee Robotics Area Youth Team (GRAYT)) - 1.0 CPR
+11. 3618 (Petoskey Paladins) - 1.0 CPR
+12. 2619 (The Charge) - 0.85 CPR
+13. 85 (B.O.B. (Built on Brains)) - 0.85 CPR
+14. 1025 (IMPIS) - 0.5 CPR
+15. 2959 (Robotarians) - 0.5 CPR
+16. 3767 (Titan Robotics) - 0.5 CPR
+17. 4776 (S.C.O.T.S. Bots) - 0.5 CPR
+18. 66 (Grizzly Robotics) - 0.5 CPR
+
+
+------------------------
+Found 6 relevant teams at the 2016 Mid-Atlantic Robotics District Championship (2016mrcmp). They are:
+------------------------
+1. 1218 (Vulcan Robotics) - 8.2 CPR
+2. 321 (RoboLancers) - 4.45 CPR
+3. 708 (Hatters Robotics) - 3.0 CPR
+4. 1923 (The MidKnight Inventors) - 2.5 CPR
+5. 1647 (Iron Devils) - 1.0 CPR
+6. 869 (PowerCord) - 0.5 CPR
+
+
+------------------------
+Found 9 relevant teams at the 2016 New England District Championship (2016necmp). They are:
+------------------------
+1. 125 (NUTRONs) - 4.0 CPR
+2. 467 (The Colonials) - 3.75 CPR
+3. 2648 (Infinite Loop) - 3.6 CPR
+4. 558 (Elm City Robo Squad) - 3.5 CPR
+5. 230 (Gaelhawks) - 2.25 CPR
+6. 4905 (Andromeda One) - 1.0 CPR
+7. 166 (Chop Shop) - 0.5 CPR
+8. 4176 (Iron Tigers) - 0.5 CPR
+9. 4761 (The Robockets) - 0.5 CPR

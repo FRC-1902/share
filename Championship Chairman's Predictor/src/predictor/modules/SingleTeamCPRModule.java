@@ -2,13 +2,13 @@ package predictor.modules;
 
 import predictor.main.CPR;
 import predictor.main.Utils;
-import predictor.wrappers.Team;
+import predictor.tba.Team;
 import java.util.Collections;
 import java.util.List;
 
 public class SingleTeamCPRModule implements Module {
 
-    Team t;
+    Team t = null;
 
     public SingleTeamCPRModule(int teamNum) {
         t = Team.getTeam(teamNum);
@@ -24,7 +24,8 @@ public class SingleTeamCPRModule implements Module {
 
     @Override
     public void finish() {
-        CPR.calculateComplexCPR(t, null);
+
+        CPR.calculateComplexCPR(t, null, true);
         Utils.log("Team " + t.number + " (" + t.name + ") has a CPR of " + Utils.roundToPlace(t.cpr, 2) + ".");
     }
 }

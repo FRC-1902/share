@@ -2,13 +2,12 @@ package predictor.modules;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import predictor.main.CPR;
-import predictor.main.Main;
-import predictor.main.Processing;
-import predictor.wrappers.Award;
-import predictor.wrappers.Event;
-import predictor.wrappers.Team;
-import predictor.main.Utils;
+import predictor.graph.BarGraph;
+import predictor.main.*;
+import predictor.graph.Graph;
+import predictor.tba.Event;
+import predictor.tba.Team;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,58 +80,32 @@ public class EventModule implements Module {
 
     @Override
     public void processTeam(Team t) {
-        boolean rcaThisYear = false;
-        boolean hof = false;
-        List<Integer> dcaWins = new ArrayList<>();
-        int rcaWins = 0;
-        List<Award> awards = everyone ? t.getAllAwards() : t.getAwardsBefore(event);
-        //Utils.log(t.number + " has " + awards.size() + " awards before " + event.date.toString());
-        for (Award a : awards) {
-            if (a.type == Award.CHAIRMANS) {
-                if (!a.district) rcaWins++;
-                else {
-                    Event e = t.getEvent(a.eventKey);
-                    dcaWins.add(e.districtID);
-                }
-                if (a.year == year && !a.district) rcaThisYear = true;
-                if (a.eventKey.equals(a.year + "cmp")) hof = true;
-            }
-        }
-        if (champs) {
-            if ((rcaWins > 3 || year <= 2010) && rcaThisYear) relevant.add(t);
-        } else if (everyone) {
-            if (!hof) {
-                relevant.add(t);
-            } else {
-                Utils.log("Removed " + t.number + " from consideration due to them being a Hall of Fame team.");
-            }
-        } else if (event.type == Event.Type.DISTRICT_CHAMPIONSHIP) {
-            if (dcaWins.contains(event.districtID)) {
-                relevant.add(t);
-            }
-        } else {
-            if (!rcaThisYear && !hof) {
-                relevant.add(t);
-            } else if (rcaThisYear) {
-                Utils.log("Removed " + t.number + " from consideration due to them having already won a Chairman's award this season.");
-            } else if (hof) {
-                Utils.log("Removed " + t.number + " from consideration due to them being a Hall of Fame team.");
-            }
-        }
+        if (everyone) relevant.add(t);
+        else if (t.isEligibleForChairmans(event)) relevant.add(t);
     }
 
     @Override
     public void finish() {
         if (complexCPR) {
-            for (Team t : new ArrayList<>(relevant)) {
+            Utils.log("Starting calculation of simple CPR ratings...");
+
+            Processing.processTeams(relevant, (Team t) -> {
                 CPR.calculateSimpleCPR(t, event.date);
+            }, Main.threadsToUse, true);
+
+            for (Team t : new ArrayList<>(relevant)) {
                 if (t.cpr == 0) relevant.remove(t);
             }
+
+            Utils.log("Starting calculation of complex CPR ratings...");
+
             Processing.processTeams(relevant, (Team t) -> {
-                CPR.calculateComplexCPR(t, event.date);
-            }, Main.threadsToUse);
+                CPR.calculateComplexCPR(t, event.date, false);
+            }, Main.threadsToUse, true);
         } else {
-            relevant.forEach((t) -> CPR.calculateSimpleCPR(t, event.date));
+            Processing.processTeams(relevant, (Team t) -> {
+                CPR.calculateSimpleCPR(t, event.date);
+            }, Main.threadsToUse, true);
         }
 
         /*
@@ -141,15 +114,19 @@ public class EventModule implements Module {
         });
         */
         for (Team t : new ArrayList<>(relevant)) {
-            if (t.cpr == 0) relevant.remove(t);
+            if (t.cpr == 0 || (everyone && t.isHOF(event.date))) relevant.remove(t);
         }
+        BarGraph g = new BarGraph(event.name + " " + event.year + " CPR Ratings", "Team", "CPR");
         Collections.sort(relevant, CPR.cprComp);
         int pos = 1;
-        System.out.println("------------------------");
-        System.out.println("Found " + relevant.size() + " relevant teams at the " + year + " " + event.name + ". They are:");
+        Utils.makeSeparator();
+        Utils.log("Found " + relevant.size() + " relevant teams at the " + year + " " + event.name + " (" + event.key + ")" + ". They are:");
+        Utils.makeSeparator();
         for (Team t : relevant) {
             Utils.log(pos + ". " + t.number + " (" + t.name + ") - " + Utils.roundToPlace(t.cpr, 2) + " CPR");
+            g.addData(t.name, "Team", t.cpr);
             pos++;
         }
+        g.saveAs("output/" + event.key + "_graph.png");
     }
 }
