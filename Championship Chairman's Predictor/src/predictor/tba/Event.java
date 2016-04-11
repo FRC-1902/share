@@ -2,20 +2,21 @@ package predictor.tba;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import predictor.main.CPR;
 import predictor.main.Main;
+import predictor.main.Processing;
 import predictor.main.Utils;
+import predictor.stuff.EventCPRResult;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class Event implements Serializable {
 
-    private static List<Event> allEvents = new ArrayList<>();
-    private static Object ALL_EVENTS_USE = new Object();
+    protected static List<Event> allEvents = new ArrayList<>();
+    protected static Object ALL_EVENTS_USE = new Object();
 
     public String key;
     public boolean init = false;
@@ -24,12 +25,13 @@ public class Event implements Serializable {
     public Integer year = null;
     public Boolean champs = null;
     public Boolean district = null;
+    public Boolean regional = null;
     public Integer districtID = null;
     public Boolean official = null;
     public Date date = null;
     public Type type = null;
-    private List<Team> teams = null;
-    private List<Award> awards = null;
+    protected List<Team> teams = null;
+    protected List<Award> awards = null;
 
     protected Event(String s) {
         key = s.replace(" ", "");
@@ -62,7 +64,7 @@ public class Event implements Serializable {
                 else if (typeInt == 1) type = Type.DISTRICT;
                 else if (typeInt == 2) type = Type.DISTRICT_CHAMPIONSHIP;
                 else if (typeInt == 3) type = Type.CHAMPIONSHIP_DIVISION;
-                else if (typeInt == 4) type = Type.CHAMPIONSHIP_FINALS;
+                else if (typeInt == 4) type = Type.CHAMPIONSHIP;
                 else if (typeInt == 99) type = Type.OFFSEASON;
                 else if (typeInt == 100) type = Type.PRESEASON;
                 else {
@@ -74,23 +76,8 @@ public class Event implements Serializable {
                 else type = Type.REGIONAL;
             }
 
-            /*
-            if (o.has("event_type_string") && !o.isNull("event_type_string")) {
-                String typeString = o.getString("event_type_string");
-                if (typeString.equalsIgnoreCase("regional")) type = Type.REGIONAL;
-                else if (typeString.equalsIgnoreCase("district")) type = Type.DISTRICT;
-                else if (typeString.equalsIgnoreCase("district championship")) type = Type.DISTRICT_CHAMPIONSHIP;
-                else if (typeString.equalsIgnoreCase("championship division")) type = Type.CHAMPIONSHIP_DIVISION;
-                else if (typeString.equalsIgnoreCase("championship finals")) type = Type.CHAMPIONSHIP_FINALS;
-                else if (typeString.equalsIgnoreCase("offseason")) type = Type.OFFSEASON;
-                else if (typeString.equalsIgnoreCase("preseason")) type = Type.PRESEASON;
-                else System.out.println("Unexpected event type \"" + typeString + "\"!");
-            } else {
-                if (district) type = Type.DISTRICT;
-                else type = Type.REGIONAL;
-            }
-            */
-            champs = type == Type.CHAMPIONSHIP_DIVISION || type == Type.CHAMPIONSHIP_FINALS;
+            regional = type == Type.REGIONAL;
+            champs = type == Type.CHAMPIONSHIP_DIVISION || type == Type.CHAMPIONSHIP;
             init = true;
             boolean duplicate = false;
             synchronized (ALL_EVENTS_USE) {
@@ -113,6 +100,37 @@ public class Event implements Serializable {
         if (!init) {
             initInfo(Utils.getObject("event/" + key));
         }
+    }
+
+    public EventCPRResult getCPRPredictions() {
+        return getCPRPredictions(getTeams());
+    }
+
+    public EventCPRResult getCPRPredictions(List<Team> ts) {
+        Utils.log("Starting calculation of simple CPR ratings...");
+
+        Processing.processTeams(ts, (Team t) -> {
+            CPR.calculateSimpleCPR(t, date);
+        }, Main.threadsToUse, true);
+
+        for (Team t : new ArrayList<>(ts)) {
+            if (t.cpr == 0) ts.remove(t);
+        }
+
+        Utils.log("Starting calculation of complex CPR ratings...");
+
+        Processing.processTeams(ts, (Team t) -> {
+            CPR.calculateComplexCPR(t, date, false);
+        }, Main.threadsToUse, true);
+
+        for (Team t : new ArrayList<>(ts)) {
+            if (t.isHOF(date) || !t.isEligibleForChairmans(this)) ts.remove(t);
+        }
+
+        Collections.sort(ts, CPR.cprComp);
+        EventCPRResult result = new EventCPRResult(this, ts);
+        Utils.serialize(result, "results/" + key + ".event");
+        return result;
     }
 
     /**
@@ -182,6 +200,20 @@ public class Event implements Serializable {
         return new ArrayList<>(awards);
     }
 
+    public static Championship getChampionship(int year) {
+        synchronized (ALL_EVENTS_USE) {
+            for (Event e : allEvents) {
+                if (e.key.equalsIgnoreCase(year + "cmp")) {
+                    if (e instanceof Championship) {
+                        return ((Championship) e);
+                    }
+                }
+            }
+        }
+        Championship c = new Championship(year);
+        return c;
+    }
+
     /**
      * Gets an Event.
      *
@@ -211,7 +243,6 @@ public class Event implements Serializable {
         List<Event> es = new ArrayList<>();
         int month = Utils.getMonth(event.date);
         int day = Utils.getDay(event.date);
-        Utils.log(day + " is the sample day.");
         for (Event e : getEventsFrom(Utils.getYear(event.date))) {
             int eMonth = Utils.getMonth(e.date);
             int eDay = Utils.getDay(e.date);
@@ -260,39 +291,12 @@ public class Event implements Serializable {
         }
     }
 
-    /**
-     * Gets all the Teams that attended the Championship of a given year.
-     *
-     * @param year The year.
-     * @return All the Teams that attended the Championship of a given year.
-     */
-    public static List<Team> getTeamsAtChamps(int year) {
-        List<Team> teams = new ArrayList<>();
-        if (year <= 2015) {
-            Utils.log("Reading teams from Championship divisions...");
-            String[] divs;
-            if (year <= 2014) divs = Main.originalDivisions;
-            else divs = Main.allDivisions;
-            for (String s : divs) {
-                Event e = new Event(year + s);
-                e.initInfo();
-                Utils.log(e.name + "...");
-                for (Team t : e.getTeams()) {
-                    teams.add(t);
-                }
-            }
-        } else {
-            teams = new Event(year + "cmp").getTeams();
-        }
-        return teams;
-    }
-
     public enum Type {
         REGIONAL,
         DISTRICT,
         DISTRICT_CHAMPIONSHIP,
         CHAMPIONSHIP_DIVISION,
-        CHAMPIONSHIP_FINALS,
+        CHAMPIONSHIP,
 
         OFFSEASON,
         PRESEASON,

@@ -47,7 +47,7 @@ public class Team implements Serializable {
             return !hasWonDCA(e.districtID, e.date) && !hasWonRCA(e.date);
         } else if (e.type == Event.Type.DISTRICT_CHAMPIONSHIP) { //Must have won DCA and not RCA
             return hasWonDCA(e.districtID, e.date) && !hasWonRCA(e.date);
-        } else if (e.type == Event.Type.CHAMPIONSHIP_FINALS) { //Must have won RCA
+        } else if (e.type == Event.Type.CHAMPIONSHIP) { //Must have won RCA
             int rcaWins = 0;
             for (Award a : getAwardsBefore(e)) {
                 if (a.type == Award.CHAIRMANS && a.regional) {
@@ -101,10 +101,8 @@ public class Team implements Serializable {
      */
     public boolean isHOF(Date d) {
         for (Award a : getAwardsBefore(d)) {
-            if (a.type == Award.CHAIRMANS && !a.district) {
-                if (a.champs) {
-                    return true;
-                }
+            if (a.type == Award.CHAIRMANS && a.champs) {
+                return true;
             }
         }
         return false;
@@ -156,15 +154,11 @@ public class Team implements Serializable {
      */
     public List<Award> getAwardsBefore(Date before) {
         List<Award> aws = new ArrayList<>();
-        //Utils.log("Total team awards: " + getAllAwards().size());
         for (Award a : getAllAwards()) {
-            Event awardingEvent = getEvent(a.eventKey);
-            awardingEvent.initInfo();
-            if (awardingEvent.date.before(before)) {
+            if (a.event.date.before(before)) {
                 aws.add(a);
             }
         }
-        //Utils.log(number + " has " + awards.size() + " awards before " + before .toString());
         return aws;
     }
 
@@ -187,21 +181,6 @@ public class Team implements Serializable {
             Collections.sort(awards, awardYear);
         }
         return new ArrayList<>(awards);
-    }
-
-    /**
-     * Gets an existing Event object.
-     *
-     * @param key The event key.
-     * @return An existing Event object.
-     */
-    public Event getEvent(String key) {
-        for (Event e : getAllEvents()) {
-            if (e.key.equalsIgnoreCase(key)) {
-                return e;
-            }
-        }
-        return null;
     }
 
     /**
@@ -239,6 +218,15 @@ public class Team implements Serializable {
             Collections.sort(events, eventOrder);
         }
         return new ArrayList<>(events);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Team) {
+            Team t = (Team) o;
+            if (number == t.number) return true;
+        }
+        return false;
     }
 
     /**

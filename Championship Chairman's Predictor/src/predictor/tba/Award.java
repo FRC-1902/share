@@ -31,7 +31,7 @@ public class Award implements Serializable {
         official = event.official;
         regional = event.type == Event.Type.REGIONAL || event.type == Event.Type.DISTRICT_CHAMPIONSHIP;
         district = event.type == Event.Type.DISTRICT;
-        champs = event.type == Event.Type.CHAMPIONSHIP_DIVISION || event.type == Event.Type.CHAMPIONSHIP_FINALS;
+        champs = event.type == Event.Type.CHAMPIONSHIP_DIVISION || event.type == Event.Type.CHAMPIONSHIP;
         year = Integer.parseInt(eventKey.substring(0, 4));
         JSONArray jsonWinners = o.getJSONArray("recipient_list");
         for (JSONObject jW : Utils.getObjects(jsonWinners)) {

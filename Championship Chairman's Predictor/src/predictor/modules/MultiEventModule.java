@@ -1,6 +1,7 @@
 package predictor.modules;
 
 import predictor.main.*;
+import predictor.stuff.EventCPRResult;
 import predictor.tba.Event;
 import predictor.tba.Team;
 
@@ -46,49 +47,16 @@ public class MultiEventModule implements Module {
                 if (!t.isEligibleForChairmans(e)) teams.remove(t);
             }
 
-            Utils.log("Calculating simple CPRs...");
-            Processing.processTeams(teams, (Team t) -> {
-                CPR.calculateSimpleCPR(t, e.date);
-            }, Main.threadsToUse, true);
-
-            Utils.log("Filtering more teams...");
-            for (Team t : new ArrayList<>(teams)) {
-                if (t.cpr == 0 || t.isHOF(e.date)) teams.remove(t);
-            }
-
-            Utils.log("Calculating complex CPRs...");
-            Processing.processTeams(teams, (Team t) -> {
-                CPR.calculateComplexCPR(t, e.date, false);
-            }, Main.threadsToUse, true);
-
-
-            Collections.sort(teams, CPR.cprComp);
+            EventCPRResult result = e.getCPRPredictions(teams);
 
             if (type == DisplayType.NORMAL) {
-                int pos = 1;
-                m.add("");
-                m.add("");
-                m.addSeparator();
-                m.add("Found " + teams.size() + " relevant teams at the " + e.year + " " + e.name + " (" + e.key + ")" + ". They are:");
-                m.addSeparator();
-                for (Team t : teams) {
-                    m.add(pos + ". " + t.number + " (" + t.name + ") - " + Utils.roundToPlace(t.cpr, 2) + " CPR");
-                    pos++;
-                }
+                m.add(result.getString());
             } else if (type == DisplayType.SLACK) {
-                int pos = 1;
-                m.add("");
-                m.add(e.name + ":");
-                m.add("```");
-                for (Team t : teams) {
-                    if (pos < 4) {
-                        m.add(pos + ". " + t.number + " (" + t.name + ") - " + Utils.roundToPlace(t.cpr, 2) + " CPR");
-                        pos++;
-                    }
-                }
-                m.add("```");
+                m.add(result.getSlackString());
             }
         }
+        Utils.log(m.getMessage());
+
         try {
             File file = new File("output/event_output.txt");
             if (file.exists()) file.delete();

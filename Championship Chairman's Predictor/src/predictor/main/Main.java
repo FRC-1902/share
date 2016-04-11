@@ -7,11 +7,14 @@ import java.util.*;
 
 public class Main {
 
-    //private static final Module module = new EventModule("2014champs");
-    //private static final Module module = new SingleTeamCPRModule(3880);
-    //private static final Module module = new Champs4HFinderModule(2016);
-    private static final Module module = new CPRGraphModule("cpr_graph", 1902, 1557, 987, 180, 27);
-    //private static final Module module = new MultiEventModule("2016azpx", MultiEventModule.DisplayType.NORMAL);
+    //TODO: Standard Championship support for easy use across all modules. Probably will need a "fake" Event object for it.
+    //TODO: Change modules to not have the weird multiple functions.
+    //TODO: Possibly merge the functionality of some of the "Multi" modules with their singular counterparts.
+
+    private static final Module module =
+            new EventModule("2016cmp");
+    //        new MultiEventModule("2015micmp", MultiEventModule.DisplayType.NORMAL);
+    //        new MultiEventResultModule("2015micmp");
 
     public static final String[] allDivisions = new String[]{"arc", "cars", "carv", "cur", "gal", "hop", "new", "tes"};
     public static final String[] originalDivisions = new String[]{"gal", "arc", "cur", "new"};

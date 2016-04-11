@@ -2,14 +2,11 @@ package predictor.modules;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import predictor.graph.BarGraph;
 import predictor.main.*;
-import predictor.graph.Graph;
+import predictor.stuff.EventCPRResult;
 import predictor.tba.Event;
 import predictor.tba.Team;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class EventModule implements Module {
@@ -24,30 +21,26 @@ public class EventModule implements Module {
     List<Team> teams = new ArrayList<>();
     List<Team> relevant = new ArrayList<>();
 
-    final boolean complexCPR = true;
-
     /**
      * Creates an EventModule, which is a module that calculates CPR for the relevant Teams at a given Event.
      *
-     * @param key The Event key. Use TBA event keys for normal events, "YEARchamps" for Championships, and "YEAReveryone" if you want all teams to be processed.
+     * @param key The Event key. Use TBA event keys for normal events and "YEAReveryone" if you want all teams to be processed.
      */
     public EventModule(String key) {
         startEventKey = key;
         year = Integer.parseInt(startEventKey.substring(0, 4));
-        champs = startEventKey.contains("champs");
+        champs = startEventKey.equalsIgnoreCase(year + "cmp");
         everyone = startEventKey.contains("everyone");
         event = null;
     }
-
-    //TODO: getChampsEvent() function(?)
 
     @Override
     public List<Team> getTeams() {
         String eventName;
         if (champs) {
-            event = Event.getEvent(year + (year == 2008 ? "ein" : "cmp"));
-            eventName = year + " Championships";
-            teams = Event.getTeamsAtChamps(year);
+            event = Event.getChampionship(year);
+            eventName = event.name;
+            teams = event.getTeams();
         } else if (everyone) {
             eventName = "All Teams " + year;
             event = Event.getEvent(year + (year == 2008 ? "ein" : "cmp"));
@@ -86,47 +79,7 @@ public class EventModule implements Module {
 
     @Override
     public void finish() {
-        if (complexCPR) {
-            Utils.log("Starting calculation of simple CPR ratings...");
-
-            Processing.processTeams(relevant, (Team t) -> {
-                CPR.calculateSimpleCPR(t, event.date);
-            }, Main.threadsToUse, true);
-
-            for (Team t : new ArrayList<>(relevant)) {
-                if (t.cpr == 0) relevant.remove(t);
-            }
-
-            Utils.log("Starting calculation of complex CPR ratings...");
-
-            Processing.processTeams(relevant, (Team t) -> {
-                CPR.calculateComplexCPR(t, event.date, false);
-            }, Main.threadsToUse, true);
-        } else {
-            Processing.processTeams(relevant, (Team t) -> {
-                CPR.calculateSimpleCPR(t, event.date);
-            }, Main.threadsToUse, true);
-        }
-
-        /*
-        relevant.forEach((t) -> {
-            CPR.calculateSimpleCPR(t, event.date);
-        });
-        */
-        for (Team t : new ArrayList<>(relevant)) {
-            if (t.cpr == 0 || (everyone && t.isHOF(event.date))) relevant.remove(t);
-        }
-        BarGraph g = new BarGraph(event.name + " " + event.year + " CPR Ratings", "Team", "CPR");
-        Collections.sort(relevant, CPR.cprComp);
-        int pos = 1;
-        Utils.makeSeparator();
-        Utils.log("Found " + relevant.size() + " relevant teams at the " + year + " " + event.name + " (" + event.key + ")" + ". They are:");
-        Utils.makeSeparator();
-        for (Team t : relevant) {
-            Utils.log(pos + ". " + t.number + " (" + t.name + ") - " + Utils.roundToPlace(t.cpr, 2) + " CPR");
-            g.addData(t.name, "Team", t.cpr);
-            pos++;
-        }
-        g.saveAs("output/" + event.key + "_graph.png");
+        EventCPRResult result = event.getCPRPredictions(relevant);
+        Utils.log(result.getString());
     }
 }

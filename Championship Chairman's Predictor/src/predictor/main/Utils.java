@@ -3,7 +3,7 @@ package predictor.main;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -126,6 +126,45 @@ public class Utils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void serialize(Serializable s, String partialDir) {
+        try {
+            String dir = "output/" + partialDir;
+            File f = new File(dir);
+            f.mkdirs();
+            if (f.exists()) f.delete();
+            f.createNewFile();
+            OutputStream file = new FileOutputStream(dir);
+            OutputStream buffer = new BufferedOutputStream(file);
+            ObjectOutput output = new ObjectOutputStream(buffer);
+            output.writeObject(s);
+            output.close();
+            log("Serialized at " + dir);
+        } catch (Exception e) {
+            log("Utils.serialize() exception!");
+            e.printStackTrace();
+        }
+    }
+
+    public static Object deserialize(String dir) {
+        try {
+            InputStream file = new FileInputStream("output/" + dir);
+            InputStream buffer = new BufferedInputStream(file);
+            ObjectInput input = new ObjectInputStream(buffer);
+            Object o = input.readObject();
+            input.close();
+            return o;
+        } catch (Exception e) {
+            log("Utils.deserialize() exception!");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean exists(String dir) {
+        File f = new File(dir);
+        return f.exists();
     }
 
     public static void makeSeparator() {

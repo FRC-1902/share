@@ -1,0 +1,41 @@
+Found 18 relevant teams at the 2015 FIRST in Michigan District Championship (2015micmp). They are:
+1. 503 (Frog Force) - 8.35 CPR
+2. 33 (Killer Bees) - 4.5 CPR
+3. 68 (Truck Town Thunder) - 3.85 CPR
+4. 1718 (The Fighting Pi) - 3.45 CPR
+5. 548 (Robostangs) - 2.35 CPR
+6. 1023 (Bedford Express) - 2.2 CPR
+7. 2604 (Metal and Soul) - 2.1 CPR
+8. 2137 (TORC) - 1.85 CPR
+9. 141 (WOBOT) - 1.7 CPR
+10. 3641 (The Flying Toasters) - 1.35 CPR
+11. 862 (Lightning Robotics) - 1.2 CPR
+12. 280 (TnT) - 1.0 CPR
+13. 3547 (VIRUS) - 0.85 CPR
+14. 1322 (Genesee Robotics Area Youth Team (GRAYT)) - 0.5 CPR
+15. 1502 (Technical Difficulties) - 0.5 CPR
+16. 245 (Adambots) - 0.5 CPR
+17. 3618 (Petoskey Paladins) - 0.5 CPR
+18. 4967 (That ONE Team) - 0.5 CPR
+
+Found 7 relevant teams at the 2015 Mid-Atlantic Robotics District Championship (2015mrcmp). They are:
+1. 1218 (Vulcan Robotics) - 6.35 CPR
+2. 1676 (The Pascack PI-oneers) - 5.05 CPR
+3. 303 (The T.E.S.T. Team) - 3.0 CPR
+4. 1923 (The MidKnight Inventors) - 2.35 CPR
+5. 321 (RoboLancers) - 2.3 CPR
+6. 1647 (Iron Devils) - 0.5 CPR
+7. 708 (Hatters Robotics) - 0.5 CPR
+
+Found 10 relevant teams at the 2015 NE FIRST District Championship presented by United Technologies (2015necmp). They are:
+1. 2648 (Infinite Loop) - 6.35 CPR
+2. 1058 (PVC Pirates) - 2.0 CPR
+3. 230 (Gaelhawks) - 2.0 CPR
+4. 178 (The 2nd Law Enforcers) - 1.6 CPR
+5. 467 (The Colonials) - 1.25 CPR
+6. 558 (Elm City Robo Squad) - 1.0 CPR
+7. 1519 (Mechanical Mayhem) - 0.85 CPR
+8. 195 (CyberKnights) - 0.5 CPR
+9. 2877 (LigerBots) - 0.5 CPR
+10. 4905 (Andromeda One) - 0.5 CPR
+

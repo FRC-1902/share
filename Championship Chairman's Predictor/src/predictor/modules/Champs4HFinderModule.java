@@ -1,6 +1,7 @@
 package predictor.modules;
 
 import predictor.main.Utils;
+import predictor.tba.Championship;
 import predictor.tba.Event;
 import predictor.tba.Team;
 
@@ -18,7 +19,7 @@ public class Champs4HFinderModule implements Module {
 
     @Override
     public List<Team> getTeams() {
-        return Event.getTeamsAtChamps(year);
+        return Event.getChampionship(year).getTeams();
     }
 
     @Override
