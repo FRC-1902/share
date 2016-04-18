@@ -24,7 +24,7 @@ public class SingleTeamCPRModule implements Module {
 
     @Override
     public void finish() {
-
+        Utils.log("talk");
         CPR.calculateComplexCPR(t, null, true);
         Utils.log("Team " + t.number + " (" + t.name + ") has a CPR of " + Utils.roundToPlace(t.cpr, 2) + ".");
     }

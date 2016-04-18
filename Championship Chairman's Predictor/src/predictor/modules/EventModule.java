@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import predictor.main.*;
 import predictor.stuff.EventCPRResult;
+import predictor.tba.Award;
 import predictor.tba.Event;
 import predictor.tba.Team;
 import java.util.ArrayList;
@@ -40,7 +41,19 @@ public class EventModule implements Module {
         if (champs) {
             event = Event.getChampionship(year);
             eventName = event.name;
-            teams = event.getTeams();
+            //teams = event.getTeams();
+            Utils.log("Getting the RCA winners at champs...");
+            int index = 1;
+            List<Event> events = Event.getEventsBefore(event.date);
+            for (Event e : events) {
+                if (!e.district) {
+                    Utils.log("Processing " + e.shortName + " (" + index + " / " + events.size() + ")");
+                    for (Team t : e.getWinnersOf(Award.CHAIRMANS)) {
+                        if (!teams.contains(t)) teams.add(t);
+                    }
+                }
+                index++;
+            }
         } else if (everyone) {
             eventName = "All Teams " + year;
             event = Event.getEvent(year + (year == 2008 ? "ein" : "cmp"));

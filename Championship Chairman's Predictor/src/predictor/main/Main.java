@@ -1,20 +1,22 @@
 package predictor.main;
 
-import predictor.modules.*;
 import predictor.modules.Module;
+import predictor.modules.*;
 import predictor.tba.*;
 import java.util.*;
 
 public class Main {
 
-    //TODO: Standard Championship support for easy use across all modules. Probably will need a "fake" Event object for it.
     //TODO: Change modules to not have the weird multiple functions.
     //TODO: Possibly merge the functionality of some of the "Multi" modules with their singular counterparts.
 
     private static final Module module =
-            new EventModule("2016cmp");
-    //        new MultiEventModule("2015micmp", MultiEventModule.DisplayType.NORMAL);
-    //        new MultiEventResultModule("2015micmp");
+            new EventModule("2015cmp");
+    //        new MultiEventModule("2016gacmp", MultiEventModule.DisplayType.NORMAL);
+    //        new MultiEventResultModule("2016gacmp");
+    //        new Champs4HFinderModule(2016);
+    //        new EventStatsModule(2016);
+    //        new SingleTeamCPRModule(4013);
 
     public static final String[] allDivisions = new String[]{"arc", "cars", "carv", "cur", "gal", "hop", "new", "tes"};
     public static final String[] originalDivisions = new String[]{"gal", "arc", "cur", "new"};
@@ -40,6 +42,7 @@ public class Main {
         module.finish();
 
         Utils.makeSeparator();
+        /*
         double timeTaken = (System.currentTimeMillis() - getStart) / 1000;
         if (timeTaken > 60) { //Minutes
             String s = timeTaken + "";
@@ -56,5 +59,6 @@ public class Main {
         } else { //Seconds
             Utils.log("Time taken: " + timeTaken + " seconds.");
         }
+        */
     }
 }

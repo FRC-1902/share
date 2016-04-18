@@ -1,41 +1,65 @@
-Found 18 relevant teams at the 2015 FIRST in Michigan District Championship (2015micmp). They are:
-1. 503 (Frog Force) - 8.35 CPR
-2. 33 (Killer Bees) - 4.5 CPR
-3. 68 (Truck Town Thunder) - 3.85 CPR
-4. 1718 (The Fighting Pi) - 3.45 CPR
-5. 548 (Robostangs) - 2.35 CPR
-6. 1023 (Bedford Express) - 2.2 CPR
-7. 2604 (Metal and Soul) - 2.1 CPR
-8. 2137 (TORC) - 1.85 CPR
-9. 141 (WOBOT) - 1.7 CPR
-10. 3641 (The Flying Toasters) - 1.35 CPR
-11. 862 (Lightning Robotics) - 1.2 CPR
-12. 280 (TnT) - 1.0 CPR
-13. 3547 (VIRUS) - 0.85 CPR
-14. 1322 (Genesee Robotics Area Youth Team (GRAYT)) - 0.5 CPR
-15. 1502 (Technical Difficulties) - 0.5 CPR
-16. 245 (Adambots) - 0.5 CPR
-17. 3618 (Petoskey Paladins) - 0.5 CPR
-18. 4967 (That ONE Team) - 0.5 CPR
+Found 4 relevant teams at the 2016 Peachtree District State Championship (2016gacmp). They are:
+------------------------
+1. 2974 (Walton Robotics) - 5.66 CPR
+2. 1311 (Kell Robotics) - 5.23 CPR
+3. 1261 (Robo  Lions) - 0.5 CPR
+4. 1648 (G3 Robotics) - 0.5 CPR
 
-Found 7 relevant teams at the 2015 Mid-Atlantic Robotics District Championship (2015mrcmp). They are:
-1. 1218 (Vulcan Robotics) - 6.35 CPR
-2. 1676 (The Pascack PI-oneers) - 5.05 CPR
-3. 303 (The T.E.S.T. Team) - 3.0 CPR
-4. 1923 (The MidKnight Inventors) - 2.35 CPR
-5. 321 (RoboLancers) - 2.3 CPR
-6. 1647 (Iron Devils) - 0.5 CPR
-7. 708 (Hatters Robotics) - 0.5 CPR
 
-Found 10 relevant teams at the 2015 NE FIRST District Championship presented by United Technologies (2015necmp). They are:
-1. 2648 (Infinite Loop) - 6.35 CPR
-2. 1058 (PVC Pirates) - 2.0 CPR
-3. 230 (Gaelhawks) - 2.0 CPR
-4. 178 (The 2nd Law Enforcers) - 1.6 CPR
-5. 467 (The Colonials) - 1.25 CPR
-6. 558 (Elm City Robo Squad) - 1.0 CPR
-7. 1519 (Mechanical Mayhem) - 0.85 CPR
-8. 195 (CyberKnights) - 0.5 CPR
-9. 2877 (LigerBots) - 0.5 CPR
-10. 4905 (Andromeda One) - 0.5 CPR
+Found 3 relevant teams at the 2016 Indiana State Championship (2016incmp). They are:
+------------------------
+1. 1741 (Red Alert) - 1.2 CPR
+2. 1747 (Harrison Boiler Robotics) - 0.5 CPR
+3. 868 (TechHOUNDS) - 0.5 CPR
+
+
+Found 21 relevant teams at the 2016 Michigan State Championship (2016micmp). They are:
+------------------------
+1. 503 (Frog Force) - 6.69 CPR
+2. 68 (Truck Town Thunder) - 5.05 CPR
+3. 2137 (TORC) - 3.19 CPR
+4. 1718 (The Fighting Pi) - 2.96 CPR
+5. 33 (Killer Bees) - 1.72 CPR
+6. 2604 (Metal and Soul) - 1.63 CPR
+7. 3641 (The Flying Toasters) - 1.62 CPR
+8. 548 (Robostangs) - 1.58 CPR
+9. 2771 (Code Red Robotics the Stray Dogs) - 1.48 CPR
+10. 2834 (Bionic Black Hawks) - 1.43 CPR
+11. 1711 (Raptors) - 1.22 CPR
+12. 1322 (Genesee Robotics Area Youth Team (GRAYT)) - 0.88 CPR
+13. 3618 (Petoskey Paladins) - 0.88 CPR
+14. 85 (B.O.B. (Built on Brains)) - 0.88 CPR
+15. 2619 (The Charge) - 0.78 CPR
+16. 1025 (IMPIS) - 0.5 CPR
+17. 2959 (Robotarians) - 0.5 CPR
+18. 3767 (Titan Robotics) - 0.5 CPR
+19. 4776 (S.C.O.T.S. Bots) - 0.5 CPR
+20. 5090 (Torque-Nados) - 0.5 CPR
+21. 66 (Grizzly Robotics) - 0.5 CPR
+
+
+Found 7 relevant teams at the 2016 Mid-Atlantic Robotics District Championship (2016mrcmp). They are:
+------------------------
+1. 1218 (Vulcan Robotics) - 6.32 CPR
+2. 321 (RoboLancers) - 3.26 CPR
+3. 708 (Hatters Robotics) - 2.63 CPR
+4. 1923 (The MidKnight Inventors) - 2.19 CPR
+5. 1647 (Iron Devils) - 0.88 CPR
+6. 1403 (Cougar Robotics) - 0.66 CPR
+7. 869 (PowerCord) - 0.5 CPR
+
+
+Found 10 relevant teams at the 2016 New England District Championship (2016necmp). They are:
+------------------------
+1. 467 (The Colonials) - 2.94 CPR
+2. 558 (Elm City Robo Squad) - 2.91 CPR
+3. 2648 (Infinite Loop) - 2.62 CPR
+4. 125 (NUTRONs) - 2.53 CPR
+5. 1519 (Mechanical Mayhem) - 1.46 CPR
+6. 230 (Gaelhawks) - 1.3 CPR
+7. 4905 (Andromeda One) - 0.88 CPR
+8. 166 (Chop Shop) - 0.5 CPR
+9. 4176 (Iron Tigers) - 0.5 CPR
+10. 4761 (The Robockets) - 0.5 CPR
+
 

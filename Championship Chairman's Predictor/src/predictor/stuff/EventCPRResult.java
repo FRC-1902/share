@@ -59,21 +59,21 @@ public class EventCPRResult implements Serializable {
     public String getString() {
         Message m = new Message();
         m.add("Found " + data.size() + " relevant teams at the " + event.year + " " + event.name + " (" + event.key + ")" + ". They are:");
-        Utils.makeSeparator();
+        m.addSeparator();
         for (TeamData d : data) {
             m.add(d.rank + ". " + d.team.number + " (" + d.team.name + ") - " + Utils.roundToPlace(d.cpr, 2) + " CPR");
         }
+        m.add("");
         return m.getMessage();
     }
 
     public String getSlackString() {
         Message m = new Message();
         int pos = 1;
-        m.add("");
         m.add(event.shortName + ":");
         m.add("```");
         for (TeamData d : data) {
-            if (pos < 4) {
+            if (pos < (event.districtChamps ? 5 : 4)) { //Since district champs give out more RCA/EI, include rank 4 if this is a district championship
                 m.add(pos + ". " + d.team.number + " (" + d.team.name + ") - " + Utils.roundToPlace(d.cpr, 2) + " CPR");
                 pos++;
             }

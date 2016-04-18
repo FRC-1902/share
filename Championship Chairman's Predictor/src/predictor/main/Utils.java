@@ -2,6 +2,7 @@ package predictor.main;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import predictor.tba.Team;
 
 import java.io.*;
 import java.net.URL;
@@ -9,6 +10,7 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Utils {
 

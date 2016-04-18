@@ -109,6 +109,21 @@ public class Team implements Serializable {
     }
 
     /**
+     * Checks if this Team has ever won a certain award.
+     *
+     * @param awardID The award ID.
+     * @return If this Team has ever won a certain award.
+     */
+    public boolean hasWonAward(int awardID) {
+        for (Award a : getAllAwards()) {
+            if (a.type == awardID) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Gets all the awards this Team won in a certain year.
      *
      * @param year The year.

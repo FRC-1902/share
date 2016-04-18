@@ -2,10 +2,7 @@ package predictor.tba;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import predictor.main.CPR;
-import predictor.main.Main;
-import predictor.main.Processing;
-import predictor.main.Utils;
+import predictor.main.*;
 import predictor.stuff.EventCPRResult;
 
 import java.io.Serializable;
@@ -23,11 +20,13 @@ public class Event implements Serializable {
     public String name = null;
     public String shortName = null;
     public Integer year = null;
-    public Boolean champs = null;
-    public Boolean district = null;
     public Boolean regional = null;
+    public Boolean district = null;
+    public Boolean districtChamps = null;
+    public Boolean champs = null;
     public Integer districtID = null;
     public Boolean official = null;
+    public Boolean offseason = null;
     public Date date = null;
     public Type type = null;
     protected List<Team> teams = null;
@@ -49,8 +48,6 @@ public class Event implements Serializable {
             if (!o.isNull("short_name")) shortName = o.getString("short_name");
             else shortName = name;
             year = o.getInt("year");
-            district = !o.isNull("event_district") && o.getInt("event_district") != 0;
-            districtID = district ? o.getInt("event_district") : 0;
             official = o.getBoolean("official");
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             try {
@@ -77,7 +74,11 @@ public class Event implements Serializable {
             }
 
             regional = type == Type.REGIONAL;
+            district = type == Type.DISTRICT;
+            districtChamps = type == Type.DISTRICT_CHAMPIONSHIP;
             champs = type == Type.CHAMPIONSHIP_DIVISION || type == Type.CHAMPIONSHIP;
+            districtID = district || districtChamps ? o.getInt("event_district") : 0;
+            offseason = type == Type.OFFSEASON || type == Type.PRESEASON;
             init = true;
             boolean duplicate = false;
             synchronized (ALL_EVENTS_USE) {
@@ -257,6 +258,23 @@ public class Event implements Serializable {
     }
 
     private static List<Integer> gotEventsForYear = new ArrayList<>();
+
+    /**
+     * Gets any Events that come before a certain Date, but within the same year as the Date.
+     *
+     * @param d The Date.
+     * @return Any Events that come before a certain Date, but within the same year as the Date.
+     */
+    public static List<Event> getEventsBefore(Date d) {
+        List<Event> es = new ArrayList<>();
+        final int year = Utils.getYear(d);
+        for (Event e : getEventsFrom(year)) {
+            if (e.date.before(d)) {
+                es.add(e);
+            }
+        }
+        return es;
+    }
 
     /**
      * Gets all the Events from a given year.
