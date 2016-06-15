@@ -2,6 +2,7 @@ package com.explodingbacon.bcnlib.networking;
 
 import com.explodingbacon.bcnlib.framework.Log;
 import com.explodingbacon.bcnlib.utils.CodeThread;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;

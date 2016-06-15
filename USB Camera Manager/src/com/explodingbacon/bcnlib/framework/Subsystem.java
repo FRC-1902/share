@@ -1,6 +1,7 @@
 package com.explodingbacon.bcnlib.framework;
 
 import com.explodingbacon.bcnlib.actuators.Motor;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +13,23 @@ import java.util.List;
  * @version 2016.1.0
  */
 public abstract class Subsystem {
+
+    private boolean init = false;
     /**
      * <code>Command</code> object that is holding controllers of this <code>Subsystem</code>. <code>Null</code> when this
      * <code>Subsystem</code> is able to be changed
      */
     public Subsystem() {
         RobotCore.subsystems.add(this);
+        init = true;
+    }
+
+    /**
+     * Checks if this Subsystem is initialized.
+     * @return If this Subsystem is initialized.
+     */
+    public boolean isInit() {
+        return init;
     }
 
     /**

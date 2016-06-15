@@ -4,6 +4,7 @@ import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * A wrapper class for OpenCV's Mat object.
  *
  * @author Ryan Shavell
- * @version 2016.3.16
+ * @version 2016.6.13
  */
 
 public class Image {
@@ -107,25 +108,14 @@ public class Image {
     }
 
     /**
-     * Returns an Image that represents all the edges in this Image.
-     *
-     * @return An Image that represents all the edges in this Image.
-     */
-    public Image findEdges() {
-        Image copy = copy();
-        Imgproc.Canny(m, copy.getMat(), 50, 150);
-        return copy;
-    }
-
-    /**
      * Creates an identical copy of this Image.
      *
      * @return An identical copy of this Image.
      */
     public Image copy() {
-        Mat copy = new Mat();
-        m.copyTo(copy);
-        return new Image(copy);
+        Image i = new Image();
+        m.copyTo(i.getMat());
+        return i;
     }
 
     /**
@@ -244,6 +234,27 @@ public class Image {
     }
 
     /**
+     * Creates a resized version of this Image. TODO: test
+     *
+     * @return A resized version of this Image.
+     */
+    public Image resize(int width, int height) {
+        Image resize = new Image();
+        Size sz = new Size(width, height);
+        Imgproc.resize(m, resize.getMat(), sz );
+        return resize;
+    }
+
+    /**
+     * Converts this Image to a byte array. TODO: test
+     *
+     * @return This Image in byte array form.
+     */
+    public byte[] toBytes() {
+        return new byte[ m.rows() * m.cols() * m.channels() ];
+    }
+
+    /**
      * Saves this Image as a file.
      *
      * @param fileName The name of the file.
@@ -253,6 +264,13 @@ public class Image {
         //f.mkdirs();
         if (f.exists()) f.delete();
         Imgcodecs.imwrite(fileName, m);
+    }
+
+    /**
+     * Releases this Image from memory. This object isn't usable after you call this.
+     */
+    public void release() {
+        m.release();
     }
 
     /**

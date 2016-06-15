@@ -3,6 +3,7 @@ package com.explodingbacon.bcnlib.framework;
 import com.explodingbacon.bcnlib.actuators.Motor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * The main class for any BCNLIb Robot. Currently supported robot controllers: roboRIOs and Raspberry Pis
  *
  * @author Ryan Shavell
- * @version 2016.3.10
+ * @version 2016.3.24
  */
 
 public abstract class RobotCore {
@@ -48,28 +49,28 @@ public abstract class RobotCore {
      * Runs when teleoperated mode starts.
      */
     public void teleopInit() {
-        Log.d("Teleop init!");
+        //Log.d("Teleop init!");
     }
 
     /**
      * Runs when autonomous mode starts.
      */
     public void autonomousInit() {
-        Log.d("Autonomous init!");
+        //Log.d("Autonomous init!");
     }
 
     /**
      * Runs when test mode starts.
      */
     public void testInit() {
-        Log.d("Test init!");
+        //Log.d("Test init!");
     }
 
     /**
      * Runs when the Robot is disabled.
      */
     public void disabledInit() {
-        Log.d("Disabled init!");
+        //Log.d("Disabled init!");
         subsystems.forEach(Subsystem::disabledInit);
         for (Motor m : Motor.getAllMotors()) {
             m.setUser(null);

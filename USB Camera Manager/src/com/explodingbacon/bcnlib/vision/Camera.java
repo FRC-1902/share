@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * A wrapper class for OpenCV's VideoCapture object.
  *
  * @author Ryan Shavell
- * @version 2016.3.16
+ * @version 2016.6.13
  */
 
 public class Camera {
@@ -41,7 +41,15 @@ public class Camera {
                                 if (cam.isOpened()) { //Do this again because synchronized can cause delays
                                     synchronized (IMAGE_USE) {
                                         cam.read(image.getMat());
-                                        if (onEachFrame != null) onEachFrame.accept(image.copy());
+                                        try {
+                                            if (onEachFrame != null) {
+                                                Image copy = image.copy();
+                                                onEachFrame.accept(copy);
+                                            }
+                                        } catch (Exception e) {
+                                            Log.e("Camera.onEachFrame Runnable error!");
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
                             }
@@ -109,10 +117,12 @@ public class Camera {
      */
     public Image getImage() {
         if (!autoUpdate) {
-            cam.release();
-            cam.open(index);
-            cam.read(image.getMat());
-            cam.release();
+            synchronized (CAMERA_USE) {
+                cam.release();
+                cam.open(index);
+                cam.read(image.getMat());
+                cam.release();
+            }
         }
         synchronized (IMAGE_USE) {
             return image.copy();
@@ -194,7 +204,9 @@ public class Camera {
      */
     public boolean setRaw(int propid, double val) {
         synchronized (CAMERA_USE) {
-            return cam.set(propid, val);
+            boolean result = cam.set(propid, val);
+            if (!result) Log.w("Setting a property of Camera " + index + " failed!");
+            return result;
         }
     }
 }

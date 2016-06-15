@@ -11,7 +11,7 @@ import java.util.function.BooleanSupplier;
  * A Utility class that contains helpful functions that don't really fit in any other classes.
  *
  * @author Ryan Shavell
- * @version 2016.3.16
+ * @version 2016.6.13
  */
 
 public class Utils {
@@ -72,7 +72,7 @@ public class Utils {
     }
 
     private static double IMAGE_WIDTH = 640;
-    private static double GOAL_TARGET_WIDTH = 20.5; //Width in inches of object being referenced
+    private static double GOAL_TARGET_WIDTH = 20.5; //Width in inches of castle tape
     private static double FOV = 51.62; //Old was 59.7
 
     /**
@@ -96,7 +96,7 @@ public class Utils {
         double distance = x - target; //TODO: check if sign is correct
         if (distance != 0) {
             double percent = distance / IMAGE_WIDTH;
-            Log.d("Distance: " + distance + ", Target: " + target + ", Percent: " + (percent * 100));
+            //Log.d("Distance: " + distance + ", Target: " + target + ", Percent: " + (percent * 100));
             return FOV * percent;
         } else {
             return 0;

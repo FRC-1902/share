@@ -4,7 +4,6 @@ import com.explodingbacon.bcnlib.actuators.FakeMotor;
 import com.explodingbacon.bcnlib.actuators.Motor;
 import com.explodingbacon.bcnlib.sensors.AbstractEncoder;
 import com.explodingbacon.bcnlib.utils.Utils;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 /**
  * All-encompassing PID controller that can be used for rate and for position controllers. Set any tuning parameter to 0 to

@@ -1,7 +1,11 @@
 package com.explodingbacon.bcnlib.vision;
 
-import org.opencv.core.*;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
+
 import java.util.ArrayList;
 import java.util.List;
 

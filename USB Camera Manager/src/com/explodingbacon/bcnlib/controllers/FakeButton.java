@@ -1,6 +1,7 @@
 package com.explodingbacon.bcnlib.controllers;
 
 import com.explodingbacon.bcnlib.framework.Log;
+
 import java.util.function.BooleanSupplier;
 
 /**

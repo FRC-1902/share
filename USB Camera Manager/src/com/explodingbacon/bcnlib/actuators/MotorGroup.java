@@ -3,6 +3,7 @@ package com.explodingbacon.bcnlib.actuators;
 import com.explodingbacon.bcnlib.framework.Log;
 import com.explodingbacon.bcnlib.utils.Utils;
 import edu.wpi.first.wpilibj.SpeedController;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

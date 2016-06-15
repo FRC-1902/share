@@ -5,6 +5,7 @@ import com.explodingbacon.bcnlib.framework.Log;
 import com.explodingbacon.bcnlib.sensors.MotorEncoder;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.function.Function;
  * A class for controlling Motors on the Robot.
  *
  * @author Ryan Shavell
- * @version 2016.3.5
+ * @version 2016.3.24
  */
 
 public class Motor extends Usable {
@@ -24,11 +25,7 @@ public class Motor extends Usable {
     protected boolean reverse = false;
     protected boolean isTuning = false;
     protected boolean isFiltered = false;
-    protected Runnable onStopIfNoUser = null;
-    protected double smoothing;
-    protected double filteredSetpoint;
     protected double filterTarget;
-    protected String tuningKey = "";
     protected String name = "";
     protected MotorEncoder encoder = null;
     protected Thread t;
